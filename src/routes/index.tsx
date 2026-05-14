@@ -373,6 +373,7 @@ function Index() {
       {/* HERO */}
       {stage === "hero" && (
         <section className="min-h-screen flex flex-col items-center justify-center px-6 py-12 text-center animate-rise">
+          <SceneArt src={heroPortrait} alt="Сергей и Симба" className="w-44 h-44 sm:w-56 sm:h-56 rounded-full mb-8" round />
           <p className="uppercase tracking-[0.5em] text-primary/80 text-xs mb-4">
             ✦ Final Wishes ✦
           </p>
@@ -509,7 +510,7 @@ function Index() {
         <SceneShell title="Глава III — Тень печали" bgImage={ch3TransformImg}>
           <DialogueBox
             line={transformDialogue[idx]}
-            onAdvance={() => advance(transformDialogue, "level-up")}
+            onAdvance={() => advance(transformDialogue, "scene3")}
           />
         </SceneShell>
       )}
@@ -610,7 +611,7 @@ function Index() {
             <div className="font-display text-2xl text-glow-gold">
               ✦ Подарок готов ✦
             </div>
-            <FantasyButton onClick={() => setStage("quest-complete")}>
+            <FantasyButton onClick={() => setStage("level-up")}>
               Дальше
             </FantasyButton>
           </div>
@@ -620,7 +621,7 @@ function Index() {
       {stage === "level-up" && (
         <LevelUpScreen
           heroClass={heroClass}
-          onContinue={() => setStage("scene3")}
+          onContinue={() => setStage("quest-complete")}
         />
       )}
 
@@ -641,12 +642,6 @@ function Index() {
       {stage === "open" && (
         <SceneShell title="✦" bgImage={cakeReward}>
           <div className="space-y-8">
-            <SceneArt
-              src={heroPortrait}
-              alt="Сергей и Симба"
-              className="w-32 h-32 sm:w-40 sm:h-40 rounded-full"
-              round
-            />
             {idx < finalDialogue.length ? (
               <DialogueBox
                 line={finalDialogue[idx]}
