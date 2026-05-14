@@ -188,7 +188,10 @@ export function LevelUpScreen({
             </div>
             <ul className="space-y-2 text-foreground/95">
               {SKILLS.map((s) => (
-                <li key={s}>{s}</li>
+                <li key={s.name}>
+                  <span>{s.icon} «{s.name}»</span>
+                  <span className="ml-2 text-foreground/65 text-sm italic">({s.note})</span>
+                </li>
               ))}
             </ul>
           </motion.div>
