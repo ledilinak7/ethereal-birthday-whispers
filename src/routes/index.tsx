@@ -12,6 +12,7 @@ import { audio } from "@/lib/audio";
 import { Confetti } from "@/components/Confetti";
 import { FloatingParticles } from "@/components/FloatingParticles";
 import { GiftMaterialize } from "@/components/GiftMaterialize";
+import { LevelUpScreen } from "@/components/LevelUpScreen";
 import { motion } from "framer-motion";
 import heroPortrait from "@/assets/hero-portrait.png";
 import forestPath from "@/assets/forest-path.png";
@@ -59,6 +60,7 @@ type Stage =
   | "scene4"
   | "gift-cinematic"
   | "gift-narrator"
+  | "level-up"
   | "quest-complete"
   | "open"
   | "final";
@@ -609,11 +611,18 @@ function Index() {
             <div className="font-display text-2xl text-glow-gold">
               ✦ Подарок готов ✦
             </div>
-            <FantasyButton onClick={() => setStage("quest-complete")}>
+            <FantasyButton onClick={() => setStage("level-up")}>
               Дальше
             </FantasyButton>
           </div>
         </SceneShell>
+      )}
+
+      {stage === "level-up" && (
+        <LevelUpScreen
+          heroClass={heroClass}
+          onContinue={() => setStage("quest-complete")}
+        />
       )}
 
       {stage === "quest-complete" && (
@@ -872,7 +881,7 @@ function FinalScreen({ name }: { name: string }) {
               window.scrollTo({ top: 0, behavior: "smooth" })
             }
           >
-            Посмотреть воспоминания
+            Открыть инвентарь воспоминаний
           </FantasyButton>
         </motion.div>
 
