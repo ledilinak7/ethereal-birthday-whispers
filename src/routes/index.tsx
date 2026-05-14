@@ -9,6 +9,9 @@ import { ChoiceMenu } from "@/components/ChoiceMenu";
 import { FantasyButton } from "@/components/FantasyButton";
 import { SoundToggle } from "@/components/SoundToggle";
 import { audio } from "@/lib/audio";
+import { Confetti } from "@/components/Confetti";
+import { FloatingParticles } from "@/components/FloatingParticles";
+import { motion } from "framer-motion";
 import heroPortrait from "@/assets/hero-portrait.png";
 import forestPath from "@/assets/forest-path.png";
 import memoryOrb from "@/assets/memory-orb.png";
@@ -428,8 +431,26 @@ function FinalScreen({
   saved: boolean;
   onSave: () => void;
 }) {
+  const container = {
+    hidden: {},
+    show: {
+      transition: { staggerChildren: 0.15, delayChildren: 0.2 },
+    },
+  };
+  const item = {
+    hidden: { opacity: 0, y: 24, filter: "blur(6px)" },
+    show: {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
+    },
+  };
+
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center px-6 py-16 text-center animate-rise overflow-hidden">
+      <Confetti />
+      <FloatingParticles />
       <div
         className="absolute inset-0 -z-10 opacity-30"
         style={{
@@ -439,14 +460,43 @@ function FinalScreen({
         }}
       />
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-background/60 via-background/30 to-background/80" />
-      <div className="mb-6 text-primary text-glow-gold tracking-[0.5em] text-xs uppercase">
-        ✦ Легендарный момент ✦
-      </div>
-      <h1 className="font-display text-4xl sm:text-6xl text-glow-gold max-w-3xl leading-tight">
-        С днём рождения, {name} ✨
-      </h1>
 
-      <div className="mt-10 jrpg-frame max-w-2xl w-full px-6 sm:px-10 py-8 text-left space-y-5">
+      <motion.div
+        variants={container}
+        initial="hidden"
+        animate="show"
+        className="relative w-full flex flex-col items-center"
+      >
+        <motion.div
+          variants={item}
+          className="mb-6 text-primary text-glow-gold tracking-[0.5em] text-xs uppercase"
+        >
+          ✦ Легендарный момент ✦
+        </motion.div>
+
+        <motion.h1
+          variants={item}
+          className="font-display text-4xl sm:text-6xl text-glow-gold max-w-3xl leading-tight"
+        >
+          <motion.span
+            className="inline-block"
+            animate={{
+              textShadow: [
+                "0 0 20px oklch(0.92 0.16 85 / 0.6)",
+                "0 0 40px oklch(0.92 0.16 85 / 0.95)",
+                "0 0 20px oklch(0.92 0.16 85 / 0.6)",
+              ],
+            }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          >
+            С днём рождения, {name} ✨
+          </motion.span>
+        </motion.h1>
+
+        <motion.div
+          variants={item}
+          className="mt-10 jrpg-frame max-w-2xl w-full px-6 sm:px-10 py-8 text-left space-y-5"
+        >
         <span className="jrpg-corner tl" />
         <span className="jrpg-corner tr" />
         <span className="jrpg-corner bl" />
@@ -504,22 +554,27 @@ function FinalScreen({
         <p className="text-center font-display text-xl text-glow-gold pt-2">
           Ты главный герой этой истории ✨
         </p>
-      </div>
+        </motion.div>
 
-      <div className="mt-10 flex flex-wrap gap-4 justify-center">
+        <motion.div variants={item} className="mt-10 flex flex-wrap gap-4 justify-center">
         <FantasyButton onClick={() => alert("🎁 Подарок принят! С Днём Рождения!")}>
           Принять подарок
         </FantasyButton>
         <FantasyButton variant="ghost" onClick={onSave}>
           {saved ? "✓ Игра сохранена" : "Сохранить игру"}
         </FantasyButton>
-      </div>
+        </motion.div>
 
-      {saved && (
-        <div className="mt-4 text-sm text-primary/90 animate-rise">
-          ✦ Прогресс записан в кристалл памяти ✦
-        </div>
-      )}
+        {saved && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-4 text-sm text-primary/90"
+          >
+            ✦ Прогресс записан в кристалл памяти ✦
+          </motion.div>
+        )}
+      </motion.div>
     </section>
   );
 }
