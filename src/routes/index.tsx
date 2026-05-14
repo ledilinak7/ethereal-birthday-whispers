@@ -612,27 +612,20 @@ function Index() {
 
       {/* Bridge stage just to reset idx and move to quest-complete */}
       {stage === "gift-narrator" && (
-        <SceneShell title="Глава V — Дар света" bgImage={cakeReward}>
+        <SceneShell title="Глава V — Дар света">
           <div className="text-center space-y-6">
             <div className="font-display text-2xl text-glow-gold">
               ✦ Подарок готов ✦
             </div>
-            <FantasyButton onClick={() => setStage("level-up")}>
+            <FantasyButton onClick={() => setStage("quest-complete")}>
               Дальше
             </FantasyButton>
           </div>
         </SceneShell>
       )}
 
-      {stage === "level-up" && (
-        <LevelUpScreen
-          heroClass={heroClass}
-          onContinue={() => setStage("quest-complete")}
-        />
-      )}
-
       {stage === "quest-complete" && (
-        <SceneShell title="Глава V — Дар света" bgImage={cakeReward}>
+        <SceneShell title="Глава V — Дар света">
           <div className="space-y-8">
             <QuestBanner title="Квест выполнен 🎉" complete />
             <div className="text-center">
@@ -646,7 +639,7 @@ function Index() {
 
       {/* OPEN — gift opens, transition */}
       {stage === "open" && (
-        <SceneShell title="✦" bgImage={cakeReward}>
+        <SceneShell title="✦" bgImage={heroPortrait}>
           <div className="space-y-8">
             {idx < finalDialogue.length ? (
               <DialogueBox
