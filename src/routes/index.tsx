@@ -17,6 +17,9 @@ import forestPath from "@/assets/forest-path.png";
 import memoryOrb from "@/assets/memory-orb.png";
 import inventoryBg from "@/assets/inventory-bg.png";
 import cakeReward from "@/assets/cake-reward.png";
+import sadnessSpirit from "@/assets/sadness-spirit.png";
+import { ClassSelector, type HeroClass } from "@/components/ClassSelector";
+import { SadnessMiniGame } from "@/components/SadnessMiniGame";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -40,6 +43,12 @@ type Stage =
   | "quest1"
   | "scene2"
   | "scene2-done"
+  | "ch3-intro"
+  | "ch3-class"
+  | "ch3-class-response"
+  | "ch3-boss-intro"
+  | "ch3-minigame"
+  | "ch3-transform"
   | "scene3"
   | "scene3-response"
   | "scene4"
@@ -57,6 +66,7 @@ function Index() {
   const [stage, setStage] = useState<Stage>("hero");
   const confirmedName = "Сергей";
   const [choiceResp, setChoiceResp] = useState<string>("");
+  const [heroClass, setHeroClass] = useState<HeroClass | null>(null);
   const [opened, setOpened] = useState(false);
 
   // Scene dialogue scripts
@@ -102,6 +112,95 @@ function Index() {
     ],
     []
   );
+
+  const ch3Intro: DialogueLine[] = useMemo(
+    () => [
+      {
+        speaker: "Рассказчик",
+        color: COLORS.narrator,
+        text: "Ветер стихает. Между деревьев медленно проступает тень — мягкая, печальная, тяжёлая.",
+      },
+      {
+        speaker: "Симба",
+        color: COLORS.companion,
+        text: "Это… Дух Печали. Он не злой. Просто очень одинокий.",
+      },
+      {
+        speaker: "Симба",
+        color: COLORS.companion,
+        text: "Прежде чем подойти ближе — выбери, кем ты будешь сегодня.",
+      },
+    ],
+    []
+  );
+
+  const classResponse: Record<HeroClass, DialogueLine[]> = useMemo(
+    () => ({
+      listener: [
+        {
+          speaker: "Симба",
+          color: COLORS.companion,
+          text: "Слушающий… Хороший выбор. Иногда печаль уходит сама — если её просто услышать.",
+        },
+      ],
+      dreamer: [
+        {
+          speaker: "Симба",
+          color: COLORS.companion,
+          text: "Мечтатель! Ты умеешь превращать тяжёлое в светящееся. Сегодня это пригодится.",
+        },
+      ],
+      guardian: [
+        {
+          speaker: "Симба",
+          color: COLORS.companion,
+          text: "Хранитель. Ты бережно держишь чувства, чтобы они не разбились. Спасибо тебе.",
+        },
+      ],
+    }),
+    []
+  );
+
+  const bossIntro: DialogueLine[] = useMemo(
+    () => [
+      {
+        speaker: "Рассказчик",
+        color: COLORS.narrator,
+        text: "Дух медленно приближается. Вокруг кружат прохладные синие искры — осколки чьей-то грусти.",
+      },
+      {
+        speaker: "Симба",
+        color: COLORS.companion,
+        text: "Не нужно сражаться. Просто коснись каждого осколка — и он станет тёплым светом.",
+      },
+    ],
+    []
+  );
+
+  const transformDialogue: DialogueLine[] = useMemo(() => {
+    const flavour: Record<HeroClass, string> = {
+      listener: "Печаль кивает тебе и тихо растворяется — ей просто нужно было, чтобы кто-то побыл рядом.",
+      dreamer: "Ты вдыхаешь тень — и выдыхаешь золотой свет. Грусть превращается в сны и улетает вверх.",
+      guardian: "Ты держишь печаль так бережно, что она перестаёт бояться — и сама становится светом.",
+    };
+    return [
+      {
+        speaker: "Рассказчик",
+        color: COLORS.narrator,
+        text: "Тень вздрагивает. Синие искры одна за другой загораются золотым.",
+      },
+      {
+        speaker: "Рассказчик",
+        color: COLORS.narrator,
+        text: flavour[heroClass ?? "dreamer"],
+      },
+      {
+        speaker: "Симба",
+        color: COLORS.companion,
+        text: "Видишь? Иногда грусть просто хочет стать светом. Ты помог.",
+      },
+    ];
+  }, [heroClass]);
 
   const scene3Intro: DialogueLine[] = useMemo(
     () => [
@@ -252,7 +351,73 @@ function Index() {
         <SceneShell title="Глава II — Огни воспоминаний" bgImage={memoryOrb}>
           <DialogueBox
             line={scene2Done[idx]}
-            onAdvance={() => setStage("scene3")}
+            onAdvance={() => setStage("ch3-intro")}
+          />
+        </SceneShell>
+      )}
+
+      {/* CHAPTER III — The Shadow of Sadness */}
+      {stage === "ch3-intro" && (
+        <SceneShell title="Глава III — Тень печали" bgImage={sadnessSpirit}>
+          <DialogueBox
+            line={ch3Intro[idx]}
+            onAdvance={() => advance(ch3Intro, "ch3-class")}
+          />
+        </SceneShell>
+      )}
+
+      {stage === "ch3-class" && (
+        <SceneShell title="Глава III — Тень печали" bgImage={forestPath}>
+          <div className="space-y-6">
+            <div className="text-center font-display text-glow-gold text-lg">
+              Выбери свой путь сердца
+            </div>
+            <ClassSelector
+              onChoose={(c) => {
+                setHeroClass(c);
+                setStage("ch3-class-response");
+              }}
+            />
+          </div>
+        </SceneShell>
+      )}
+
+      {stage === "ch3-class-response" && heroClass && (
+        <SceneShell title="Глава III — Тень печали" bgImage={forestPath}>
+          <DialogueBox
+            line={classResponse[heroClass][idx]}
+            onAdvance={() =>
+              advance(classResponse[heroClass], "ch3-boss-intro")
+            }
+          />
+        </SceneShell>
+      )}
+
+      {stage === "ch3-boss-intro" && (
+        <SceneShell title="Глава III — Тень печали" bgImage={sadnessSpirit}>
+          <DialogueBox
+            line={bossIntro[idx]}
+            onAdvance={() => advance(bossIntro, "ch3-minigame")}
+          />
+        </SceneShell>
+      )}
+
+      {stage === "ch3-minigame" && (
+        <SceneShell title="Глава III — Тень печали" bgImage={sadnessSpirit}>
+          <div className="space-y-4">
+            <div className="text-center text-foreground/80 text-sm">
+              Касайся синих осколков — они станут тёплым светом ✦
+            </div>
+            <SadnessMiniGame onComplete={() => setStage("ch3-transform")} />
+          </div>
+        </SceneShell>
+      )}
+
+      {stage === "ch3-transform" && (
+        <SceneShell title="Глава III — Тень печали" bgImage={memoryOrb}>
+          <DialogueBox
+            line={transformDialogue[idx]}
+            onAdvance={() => advance(transformDialogue, "scene3")}
           />
         </SceneShell>
       )}
@@ -260,7 +425,7 @@ function Index() {
       {/* SCENE 3 — funny choice */}
       {stage === "scene3" && (
         <SceneShell
-          title="Глава III — Великое испытание"
+          title="Глава IV — Великое испытание"
           bgImage={idx >= scene3Intro.length ? cakeReward : undefined}
         >
           {idx < scene3Intro.length ? (
@@ -291,7 +456,7 @@ function Index() {
       )}
 
       {stage === "scene3-response" && (
-        <SceneShell title="Глава III — Великое испытание" bgImage={cakeReward}>
+        <SceneShell title="Глава IV — Великое испытание" bgImage={cakeReward}>
           <DialogueBox
             line={{ speaker: "Симба", color: COLORS.companion, text: choiceResp }}
             onAdvance={() => setStage("scene4")}
@@ -301,7 +466,7 @@ function Index() {
 
       {/* SCENE 4 — gift appears */}
       {stage === "scene4" && (
-        <SceneShell title="Глава IV — Дар света" bgImage={cakeReward}>
+        <SceneShell title="Глава V — Дар света" bgImage={cakeReward}>
           <div className="space-y-8">
             <DialogueBox
               line={scene4[idx]}
@@ -312,7 +477,7 @@ function Index() {
       )}
 
       {stage === "quest-complete" && (
-        <SceneShell title="Глава IV — Дар света" bgImage={cakeReward}>
+        <SceneShell title="Глава V — Дар света" bgImage={cakeReward}>
           <div className="space-y-8">
             <QuestBanner title="Квест выполнен 🎉" complete />
             <div className="text-center">
