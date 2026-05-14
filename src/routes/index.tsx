@@ -854,6 +854,28 @@ function FinalScreen({ name }: { name: string }) {
         </p>
         </motion.div>
 
+        <motion.div
+          variants={item}
+          className="mt-10 flex flex-wrap items-center justify-center gap-4"
+        >
+          <FantasyButton
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+              window.location.reload();
+            }}
+          >
+            Продолжить приключение
+          </FantasyButton>
+          <FantasyButton
+            variant="ghost"
+            onClick={() =>
+              window.scrollTo({ top: 0, behavior: "smooth" })
+            }
+          >
+            Посмотреть воспоминания
+          </FantasyButton>
+        </motion.div>
+
       </motion.div>
     </section>
   );
