@@ -5,7 +5,10 @@ export function SoundToggle() {
   const [muted, setMuted] = useState(() => audio.isMuted());
 
   useEffect(() => {
-    return audio.onChange(setMuted);
+    const unsub = audio.onChange(setMuted);
+    return () => {
+      unsub();
+    };
   }, []);
 
   return (
