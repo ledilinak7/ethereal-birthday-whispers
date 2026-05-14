@@ -610,7 +610,7 @@ function Index() {
             <div className="font-display text-2xl text-glow-gold">
               ✦ Подарок готов ✦
             </div>
-            <FantasyButton onClick={() => setStage("level-up")}>
+            <FantasyButton onClick={() => setStage("quest-complete")}>
               Дальше
             </FantasyButton>
           </div>
@@ -620,7 +620,7 @@ function Index() {
       {stage === "level-up" && (
         <LevelUpScreen
           heroClass={heroClass}
-          onContinue={() => setStage("quest-complete")}
+          onContinue={() => setStage("scene3")}
         />
       )}
 
