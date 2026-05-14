@@ -260,7 +260,10 @@ function Index() {
 
       {/* SCENE 3 — funny choice */}
       {stage === "scene3" && (
-        <SceneShell title="Глава III — Великое испытание">
+        <SceneShell
+          title="Глава III — Великое испытание"
+          bgImage={idx >= scene3Intro.length ? cakeReward : undefined}
+        >
           {idx < scene3Intro.length ? (
             <DialogueBox
               line={scene3Intro[idx]}
@@ -289,7 +292,7 @@ function Index() {
       )}
 
       {stage === "scene3-response" && (
-        <SceneShell title="Глава III — Великое испытание">
+        <SceneShell title="Глава III — Великое испытание" bgImage={cakeReward}>
           <DialogueBox
             line={{ speaker: "Симба", color: COLORS.companion, text: choiceResp }}
             onAdvance={() => setStage("scene4")}
@@ -338,11 +341,7 @@ function Index() {
 
       {/* FINAL */}
       {stage === "final" && (
-        <FinalScreen
-          name={confirmedName}
-          saved={saved}
-          onSave={() => setSaved(true)}
-        />
+        <FinalScreen name={confirmedName} />
       )}
     </main>
   );
