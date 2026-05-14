@@ -373,7 +373,6 @@ function Index() {
       {/* HERO */}
       {stage === "hero" && (
         <section className="min-h-screen flex flex-col items-center justify-center px-6 py-12 text-center animate-rise">
-          <SceneArt src={heroPortrait} alt="Сергей и Симба" className="w-44 h-44 sm:w-56 sm:h-56 rounded-full mb-8" round />
           <p className="uppercase tracking-[0.5em] text-primary/80 text-xs mb-4">
             ✦ Final Wishes ✦
           </p>
