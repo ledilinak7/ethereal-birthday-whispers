@@ -17,21 +17,21 @@ const STATS: { icon: string; name: string; value: number; flavor: string }[] = [
   { icon: "🐾", name: "Эмпатия (Cat Affinity)", value: 30, flavor: "Коты выбирают его. Всегда." },
   { icon: "🏋️", name: "Сила (Deadlift Force)", value: 22, flavor: "Поднимает железо и мораль команды" },
   { icon: "🧠", name: "Мудрость (Debugging Sense)", value: 27, flavor: "Находит баг до того, как он найден" },
-  { icon: "🎮", name: "Реакция (Gamer Reflex)", value: 20, flavor: "Уклоняется от проблем (иногда через игры)" },
+  { icon: "🎮", name: "Реакция (Gamer Reflex)", value: 20, flavor: "Быстро реагирует — особенно на запуск игры" },
 ];
 
-const SKILLS = [
-  "🖥️  Summon: Working Build",
-  "🎸  Acoustic Heal",
-  "🐱  Cat Buff",
-  "⚔️  Final Commit",
+const SKILLS: { icon: string; name: string; note: string }[] = [
+  { icon: "🖥️", name: "Запустилось с первого раза", note: "легендарный шанс: 1%" },
+  { icon: "🎸", name: "Исцеление аккордами", note: "лечит душу" },
+  { icon: "🐱", name: "Кот лёг на клавиатуру", note: "останавливает работу" },
+  { icon: "⚔️", name: "Ща быстро пофикшу", note: "активирует хаос" },
 ];
 
 const ACHIEVEMENTS = [
   "🏆 Победитель багов (иногда)",
   "🌙 Ночной деплой выжил",
   "😼 Выбран котами",
-  "🎯 Почти прошёл всё до конца",
+  "🎯 Понимает, что путь важнее финала",
 ];
 
 const item = {
@@ -188,7 +188,10 @@ export function LevelUpScreen({
             </div>
             <ul className="space-y-2 text-foreground/95">
               {SKILLS.map((s) => (
-                <li key={s}>{s}</li>
+                <li key={s.name}>
+                  <span>{s.icon} «{s.name}»</span>
+                  <span className="ml-2 text-foreground/65 text-sm italic">({s.note})</span>
+                </li>
               ))}
             </ul>
           </motion.div>
