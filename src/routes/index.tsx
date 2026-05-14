@@ -7,6 +7,8 @@ import { LightCollector } from "@/components/LightCollector";
 import { ChoiceMenu } from "@/components/ChoiceMenu";
 
 import { FantasyButton } from "@/components/FantasyButton";
+import { SoundToggle } from "@/components/SoundToggle";
+import { audio } from "@/lib/audio";
 import heroPortrait from "@/assets/hero-portrait.png";
 import forestPath from "@/assets/forest-path.png";
 import memoryOrb from "@/assets/memory-orb.png";
@@ -150,6 +152,20 @@ function Index() {
   const [idx, setIdx] = useState(0);
   useEffect(() => setIdx(0), [stage]);
 
+  // Start the fantasy music as soon as the user begins the adventure
+  // (browsers require a user gesture before AudioContext can play).
+  useEffect(() => {
+    if (stage !== "hero") {
+      void audio.startMusic();
+    }
+  }, [stage]);
+
+  useEffect(() => {
+    return () => {
+      audio.stopMusic();
+    };
+  }, []);
+
   const advance = (lines: DialogueLine[], next: Stage) => {
     if (idx + 1 < lines.length) setIdx(idx + 1);
     else setStage(next);
@@ -158,6 +174,7 @@ function Index() {
   return (
     <main className="relative min-h-screen w-full">
       <MagicalBackground />
+      <SoundToggle />
 
       {/* HERO */}
       {stage === "hero" && (
