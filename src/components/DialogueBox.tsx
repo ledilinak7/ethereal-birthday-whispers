@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Typewriter } from "./Typewriter";
+import { audio } from "@/lib/audio";
 
 export type DialogueLine = {
   speaker: string;
@@ -20,6 +21,7 @@ export function DialogueBox({
   useEffect(() => setDone(false), [line]);
 
   const handleClick = () => {
+    void audio.play("tick");
     if (!done) setDone(true);
     else onAdvance();
   };

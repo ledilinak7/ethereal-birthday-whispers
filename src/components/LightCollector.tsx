@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { audio } from "@/lib/audio";
 
 type Light = { id: number; left: number; top: number; label: string };
 
@@ -25,8 +26,10 @@ export function LightCollector({
     const next = [...collected, l.id];
     setCollected(next);
     setPopup(l.label);
+    void audio.play("collect");
     setTimeout(() => setPopup(null), 1400);
     if (next.length === items.length) {
+      setTimeout(() => void audio.play("complete"), 600);
       setTimeout(onComplete, 1500);
     }
   };

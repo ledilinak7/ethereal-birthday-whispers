@@ -1,3 +1,5 @@
+import { audio } from "@/lib/audio";
+
 export function ChoiceMenu({
   choices,
   onChoose,
@@ -15,7 +17,10 @@ export function ChoiceMenu({
         {choices.map((c) => (
           <li key={c.value}>
             <button
-              onClick={() => onChoose(c.value)}
+              onClick={() => {
+                void audio.play("choice");
+                onChoose(c.value);
+              }}
               className="group w-full text-left px-4 py-3 flex items-center gap-3 transition hover:bg-primary/10"
             >
               <span className="text-primary opacity-0 group-hover:opacity-100 transition">
