@@ -18,6 +18,10 @@ import memoryOrb from "@/assets/memory-orb.png";
 import inventoryBg from "@/assets/inventory-bg.png";
 import cakeReward from "@/assets/cake-reward.png";
 import sadnessSpirit from "@/assets/sadness-spirit.png";
+import ch3ClassImg from "@/assets/ch3-class.png";
+import ch3BossImg from "@/assets/ch3-boss.png";
+import ch3TransformImg from "@/assets/ch3-transform.png";
+import ch3MinigameImg from "@/assets/ch3-minigame.png";
 import { ClassSelector, type HeroClass } from "@/components/ClassSelector";
 import { SadnessMiniGame } from "@/components/SadnessMiniGame";
 
@@ -367,7 +371,7 @@ function Index() {
       )}
 
       {stage === "ch3-class" && (
-        <SceneShell title="Глава III — Тень печали" bgImage={forestPath}>
+        <SceneShell title="Глава III — Тень печали" bgImage={ch3ClassImg}>
           <div className="space-y-6">
             <div className="text-center font-display text-glow-gold text-lg">
               Выбери свой путь сердца
@@ -383,7 +387,7 @@ function Index() {
       )}
 
       {stage === "ch3-class-response" && heroClass && (
-        <SceneShell title="Глава III — Тень печали" bgImage={forestPath}>
+        <SceneShell title="Глава III — Тень печали" bgImage={ch3ClassImg}>
           <DialogueBox
             line={classResponse[heroClass][idx]}
             onAdvance={() =>
@@ -394,7 +398,7 @@ function Index() {
       )}
 
       {stage === "ch3-boss-intro" && (
-        <SceneShell title="Глава III — Тень печали" bgImage={sadnessSpirit}>
+        <SceneShell title="Глава III — Тень печали" bgImage={ch3BossImg}>
           <DialogueBox
             line={bossIntro[idx]}
             onAdvance={() => advance(bossIntro, "ch3-minigame")}
@@ -403,7 +407,7 @@ function Index() {
       )}
 
       {stage === "ch3-minigame" && (
-        <SceneShell title="Глава III — Тень печали" bgImage={sadnessSpirit}>
+        <SceneShell title="Глава III — Тень печали" bgImage={ch3MinigameImg}>
           <div className="space-y-4">
             <div className="text-center text-foreground/80 text-sm">
               Касайся синих осколков — они станут тёплым светом ✦
@@ -414,7 +418,7 @@ function Index() {
       )}
 
       {stage === "ch3-transform" && (
-        <SceneShell title="Глава III — Тень печали" bgImage={memoryOrb}>
+        <SceneShell title="Глава III — Тень печали" bgImage={ch3TransformImg}>
           <DialogueBox
             line={transformDialogue[idx]}
             onAdvance={() => advance(transformDialogue, "scene3")}
