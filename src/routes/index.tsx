@@ -421,15 +421,10 @@ function SceneShell({
   );
 }
 
-function FinalScreen({
-  name,
-  saved,
-  onSave,
-}: {
-  name: string;
-  saved: boolean;
-  onSave: () => void;
-}) {
+function FinalScreen({ name }: { name: string }) {
+  useEffect(() => {
+    void audio.play("complete");
+  }, []);
   const container = {
     hidden: {},
     show: {
@@ -555,24 +550,6 @@ function FinalScreen({
         </p>
         </motion.div>
 
-        <motion.div variants={item} className="mt-10 flex flex-wrap gap-4 justify-center">
-        <FantasyButton onClick={() => alert("🎁 Подарок принят! С Днём Рождения!")}>
-          Принять подарок
-        </FantasyButton>
-        <FantasyButton variant="ghost" onClick={onSave}>
-          {saved ? "✓ Игра сохранена" : "Сохранить игру"}
-        </FantasyButton>
-        </motion.div>
-
-        {saved && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-4 text-sm text-primary/90"
-          >
-            ✦ Прогресс записан в кристалл памяти ✦
-          </motion.div>
-        )}
       </motion.div>
     </section>
   );
