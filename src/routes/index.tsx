@@ -509,7 +509,7 @@ function Index() {
         <SceneShell title="Глава III — Тень печали" bgImage={ch3TransformImg}>
           <DialogueBox
             line={transformDialogue[idx]}
-            onAdvance={() => advance(transformDialogue, "scene3")}
+            onAdvance={() => advance(transformDialogue, "level-up")}
           />
         </SceneShell>
       )}
