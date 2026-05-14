@@ -641,6 +641,12 @@ function Index() {
       {stage === "open" && (
         <SceneShell title="✦" bgImage={cakeReward}>
           <div className="space-y-8">
+            <SceneArt
+              src={heroPortrait}
+              alt="Сергей и Симба"
+              className="w-32 h-32 sm:w-40 sm:h-40 rounded-full"
+              round
+            />
             {idx < finalDialogue.length ? (
               <DialogueBox
                 line={finalDialogue[idx]}
