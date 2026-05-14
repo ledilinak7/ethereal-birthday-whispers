@@ -11,6 +11,7 @@ import { SoundToggle } from "@/components/SoundToggle";
 import { audio } from "@/lib/audio";
 import { Confetti } from "@/components/Confetti";
 import { FloatingParticles } from "@/components/FloatingParticles";
+import { GiftMaterialize } from "@/components/GiftMaterialize";
 import { motion } from "framer-motion";
 import heroPortrait from "@/assets/hero-portrait.png";
 import forestPath from "@/assets/forest-path.png";
@@ -56,6 +57,8 @@ type Stage =
   | "scene3"
   | "scene3-response"
   | "scene4"
+  | "gift-cinematic"
+  | "gift-narrator"
   | "quest-complete"
   | "open"
   | "final";
@@ -238,8 +241,87 @@ function Index() {
     []
   );
 
+  // Cat reaction right BEFORE the gift fully materializes
+  const catReaction: DialogueLine[] = useMemo(
+    () => [
+      {
+        speaker: "Симба",
+        color: COLORS.companion,
+        text: "Подожди… я чувствую это! *уши торчком, глаза светятся*",
+      },
+    ],
+    []
+  );
+
+  // Narrator dialogue right AFTER the gift fully materializes
+  const giftNarrator: DialogueLine[] = useMemo(
+    () => [
+      {
+        speaker: "Рассказчик",
+        color: COLORS.narrator,
+        text: "Этот подарок… появился не просто так.",
+      },
+      {
+        speaker: "Рассказчик",
+        color: COLORS.narrator,
+        text: "Ты собрал его сам.",
+      },
+    ],
+    []
+  );
+
   const finalDialogue: DialogueLine[] = useMemo(
     () => [
+      {
+        speaker: "Система",
+        color: "text-primary",
+        text: "📜 Проверка данных…",
+      },
+      {
+        speaker: "Система",
+        color: "text-primary",
+        text: "📜 Инвентарь синхронизирован.",
+      },
+      {
+        speaker: "Система",
+        color: "text-primary",
+        text: "📜 Эмоциональный уровень: высокий.",
+      },
+      {
+        speaker: "Система",
+        color: "text-primary",
+        text: "📜 Бонус активирован: Полная история.",
+      },
+      {
+        speaker: "Рассказчик",
+        color: COLORS.narrator,
+        text: "Ты прошёл этот путь…",
+      },
+      {
+        speaker: "Рассказчик",
+        color: COLORS.narrator,
+        text: "И собрал не просто свет…",
+      },
+      {
+        speaker: "Рассказчик",
+        color: COLORS.narrator,
+        text: "…а моменты, которые имеют значение.",
+      },
+      {
+        speaker: "Симба",
+        color: COLORS.companion,
+        text: "Эй… я всё видел!",
+      },
+      {
+        speaker: "Симба",
+        color: COLORS.companion,
+        text: "Ты правда круто справился.",
+      },
+      {
+        speaker: "Симба",
+        color: COLORS.companion,
+        text: "И да… без меня ты бы не справился 😼",
+      },
       {
         speaker: "Рассказчик",
         color: COLORS.narrator,
@@ -249,6 +331,11 @@ function Index() {
         speaker: "Система",
         color: "text-primary",
         text: "Получен предмет: 🎂 День Рождения. Редкость: Легендарная.",
+      },
+      {
+        speaker: "Система",
+        color: "text-primary",
+        text: "🎮 Роль обновлена: Главный герой.",
       },
     ],
     []
@@ -474,8 +561,57 @@ function Index() {
           <div className="space-y-8">
             <DialogueBox
               line={scene4[idx]}
-              onAdvance={() => advance(scene4, "quest-complete")}
+              onAdvance={() => {
+                if (idx + 1 < scene4.length) setIdx(idx + 1);
+                else {
+                  setIdx(0);
+                  setStage("gift-cinematic");
+                }
+              }}
             />
+          </div>
+        </SceneShell>
+      )}
+
+      {/* CINEMATIC — memories merge into the gift */}
+      {stage === "gift-cinematic" && (
+        <SceneShell title="Глава V — Дар света">
+          <div className="space-y-6">
+            {idx === 0 ? (
+              <>
+                <GiftMaterialize onDone={() => setIdx(1)} />
+                <DialogueBox
+                  line={catReaction[0]}
+                  onAdvance={() => setIdx(1)}
+                  hint="✦ цепочка света... ✦"
+                />
+              </>
+            ) : (
+              <DialogueBox
+                line={giftNarrator[Math.min(idx - 1, giftNarrator.length - 1)]}
+                onAdvance={() => {
+                  if (idx - 1 + 1 < giftNarrator.length) setIdx(idx + 1);
+                  else {
+                    setIdx(0);
+                    setStage("gift-narrator");
+                  }
+                }}
+              />
+            )}
+          </div>
+        </SceneShell>
+      )}
+
+      {/* Bridge stage just to reset idx and move to quest-complete */}
+      {stage === "gift-narrator" && (
+        <SceneShell title="Глава V — Дар света" bgImage={cakeReward}>
+          <div className="text-center space-y-6">
+            <div className="font-display text-2xl text-glow-gold">
+              ✦ Подарок готов ✦
+            </div>
+            <FantasyButton onClick={() => setStage("quest-complete")}>
+              Дальше
+            </FantasyButton>
           </div>
         </SceneShell>
       )}
@@ -716,6 +852,28 @@ function FinalScreen({ name }: { name: string }) {
         <p className="text-center font-display text-xl text-glow-gold pt-2">
           Ты главный герой этой истории ✨
         </p>
+        </motion.div>
+
+        <motion.div
+          variants={item}
+          className="mt-10 flex flex-wrap items-center justify-center gap-4"
+        >
+          <FantasyButton
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+              window.location.reload();
+            }}
+          >
+            Продолжить приключение
+          </FantasyButton>
+          <FantasyButton
+            variant="ghost"
+            onClick={() =>
+              window.scrollTo({ top: 0, behavior: "smooth" })
+            }
+          >
+            Посмотреть воспоминания
+          </FantasyButton>
         </motion.div>
 
       </motion.div>
