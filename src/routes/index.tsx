@@ -58,7 +58,6 @@ function Index() {
   const confirmedName = "Сергей";
   const [choiceResp, setChoiceResp] = useState<string>("");
   const [opened, setOpened] = useState(false);
-  const [saved, setSaved] = useState(false);
 
   // Scene dialogue scripts
   const scene1: DialogueLine[] = useMemo(
