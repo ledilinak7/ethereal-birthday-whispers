@@ -373,7 +373,6 @@ function Index() {
       {/* HERO */}
       {stage === "hero" && (
         <section className="min-h-screen flex flex-col items-center justify-center px-6 py-12 text-center animate-rise">
-          <SceneArt src={heroPortrait} alt="Сергей и Симба" className="w-44 h-44 sm:w-56 sm:h-56 rounded-full mb-8" round />
           <p className="uppercase tracking-[0.5em] text-primary/80 text-xs mb-4">
             ✦ Final Wishes ✦
           </p>
@@ -510,9 +509,16 @@ function Index() {
         <SceneShell title="Глава III — Тень печали" bgImage={ch3TransformImg}>
           <DialogueBox
             line={transformDialogue[idx]}
-            onAdvance={() => advance(transformDialogue, "scene3")}
+            onAdvance={() => advance(transformDialogue, "level-up")}
           />
         </SceneShell>
+      )}
+
+      {stage === "level-up" && (
+        <LevelUpScreen
+          heroClass={heroClass}
+          onContinue={() => setStage("scene3")}
+        />
       )}
 
       {/* SCENE 3 — funny choice */}
@@ -606,27 +612,20 @@ function Index() {
 
       {/* Bridge stage just to reset idx and move to quest-complete */}
       {stage === "gift-narrator" && (
-        <SceneShell title="Глава V — Дар света" bgImage={cakeReward}>
+        <SceneShell title="Глава V — Дар света">
           <div className="text-center space-y-6">
             <div className="font-display text-2xl text-glow-gold">
               ✦ Подарок готов ✦
             </div>
-            <FantasyButton onClick={() => setStage("level-up")}>
+            <FantasyButton onClick={() => setStage("quest-complete")}>
               Дальше
             </FantasyButton>
           </div>
         </SceneShell>
       )}
 
-      {stage === "level-up" && (
-        <LevelUpScreen
-          heroClass={heroClass}
-          onContinue={() => setStage("quest-complete")}
-        />
-      )}
-
       {stage === "quest-complete" && (
-        <SceneShell title="Глава V — Дар света" bgImage={cakeReward}>
+        <SceneShell title="Глава V — Дар света">
           <div className="space-y-8">
             <QuestBanner title="Квест выполнен 🎉" complete />
             <div className="text-center">
@@ -640,7 +639,7 @@ function Index() {
 
       {/* OPEN — gift opens, transition */}
       {stage === "open" && (
-        <SceneShell title="✦" bgImage={cakeReward}>
+        <SceneShell title="✦" bgImage={heroPortrait}>
           <div className="space-y-8">
             {idx < finalDialogue.length ? (
               <DialogueBox
