@@ -58,7 +58,6 @@ function Index() {
   const confirmedName = "Сергей";
   const [choiceResp, setChoiceResp] = useState<string>("");
   const [opened, setOpened] = useState(false);
-  const [saved, setSaved] = useState(false);
 
   // Scene dialogue scripts
   const scene1: DialogueLine[] = useMemo(
@@ -260,7 +259,10 @@ function Index() {
 
       {/* SCENE 3 — funny choice */}
       {stage === "scene3" && (
-        <SceneShell title="Глава III — Великое испытание">
+        <SceneShell
+          title="Глава III — Великое испытание"
+          bgImage={idx >= scene3Intro.length ? cakeReward : undefined}
+        >
           {idx < scene3Intro.length ? (
             <DialogueBox
               line={scene3Intro[idx]}
@@ -289,7 +291,7 @@ function Index() {
       )}
 
       {stage === "scene3-response" && (
-        <SceneShell title="Глава III — Великое испытание">
+        <SceneShell title="Глава III — Великое испытание" bgImage={cakeReward}>
           <DialogueBox
             line={{ speaker: "Симба", color: COLORS.companion, text: choiceResp }}
             onAdvance={() => setStage("scene4")}
@@ -338,11 +340,7 @@ function Index() {
 
       {/* FINAL */}
       {stage === "final" && (
-        <FinalScreen
-          name={confirmedName}
-          saved={saved}
-          onSave={() => setSaved(true)}
-        />
+        <FinalScreen name={confirmedName} />
       )}
     </main>
   );
@@ -422,15 +420,10 @@ function SceneShell({
   );
 }
 
-function FinalScreen({
-  name,
-  saved,
-  onSave,
-}: {
-  name: string;
-  saved: boolean;
-  onSave: () => void;
-}) {
+function FinalScreen({ name }: { name: string }) {
+  useEffect(() => {
+    void audio.play("complete");
+  }, []);
   const container = {
     hidden: {},
     show: {
@@ -556,24 +549,6 @@ function FinalScreen({
         </p>
         </motion.div>
 
-        <motion.div variants={item} className="mt-10 flex flex-wrap gap-4 justify-center">
-        <FantasyButton onClick={() => alert("🎁 Подарок принят! С Днём Рождения!")}>
-          Принять подарок
-        </FantasyButton>
-        <FantasyButton variant="ghost" onClick={onSave}>
-          {saved ? "✓ Игра сохранена" : "Сохранить игру"}
-        </FantasyButton>
-        </motion.div>
-
-        {saved && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-4 text-sm text-primary/90"
-          >
-            ✦ Прогресс записан в кристалл памяти ✦
-          </motion.div>
-        )}
       </motion.div>
     </section>
   );
