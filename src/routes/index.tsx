@@ -809,16 +809,27 @@ function FinalScreen({ name }: { name: string }) {
         <span className="jrpg-corner br" />
 
         <p className="text-accent italic">
-          Сегодня даже кристаллы светят ярче…
+          ✨ Сегодня даже кристаллы светят ярче…
         </p>
+        <p className="text-foreground/90 italic">И не просто так.</p>
+
+        <div className="rounded-lg border border-accent/40 bg-accent/5 p-4">
+          <div className="text-xs uppercase tracking-widest text-accent/90 mb-1">
+            🎮 Система зафиксировала событие
+          </div>
+          <div className="text-foreground/95">
+            Повышение уровня →{" "}
+            <span className="text-primary text-glow-gold font-display">35</span>
+          </div>
+        </div>
 
         <p className="text-foreground/95 leading-relaxed">
-          Ты — как редкий артефакт:{" "}
+          💫 Ты — как редкий артефакт:{" "}
           <span className="text-primary text-glow-gold">
             ценный, уникальный
           </span>{" "}
-          и с бонусом к радости{" "}
-          <span className="text-primary">+100 💫</span>
+          и с пассивным эффектом{" "}
+          <span className="text-primary">«Радость +100 ко всем вокруг»</span>
         </p>
 
         <div className="rounded-lg border border-primary/30 bg-primary/5 p-4">
@@ -827,39 +838,72 @@ function FinalScreen({ name }: { name: string }) {
           </div>
           <ul className="space-y-1 text-foreground/90">
             <li>— Харизма: <span className="text-primary">максимум</span></li>
-            <li>— Удача: <span className="text-primary">высокая</span></li>
+            <li>— Удача: <span className="text-primary">стабильно высокая</span></li>
             <li>— Доброта: <span className="text-primary">легендарная</span></li>
+            <li>— Интеллект (кодинг): <span className="text-primary">критический урон по багам</span></li>
+            <li>— Сила: <span className="text-primary">хватает и на штангу, и на сложные дни</span></li>
+            <li>— Уют (котики): <span className="text-primary">за пределами шкалы 🐾</span></li>
           </ul>
         </div>
 
-        <p className="text-foreground/95 leading-relaxed">
-          Пусть впереди будут только светлые дороги, надёжные спутники и
-          счастливые моменты.
-        </p>
+        <div className="text-foreground/95 leading-relaxed space-y-1">
+          <div>Пусть впереди будут:</div>
+          <div>✨ светлые дороги</div>
+          <div>🧭 надёжные спутники</div>
+          <div>🎯 квесты, которые хочется проходить</div>
+          <div>🎁 и лут, который радует</div>
+        </div>
 
         <div className="rounded-lg border border-secondary/30 bg-secondary/5 p-4 text-foreground/90 space-y-1">
+          <div className="text-xs uppercase tracking-widest text-secondary/90 mb-1">
+            📈 Level Up бонусы
+          </div>
           <div>— +1 уровень получен</div>
-          <div>— Торт без дебаффа</div>
-          <div>— Только хорошие случайные встречи</div>
+          <div>— Открыт перк: «Опыт и спокойствие»</div>
+          <div>— Торт без дебаффа 🎂</div>
+          <div>— Шанс на счастливые случайные встречи увеличен</div>
+          <div>— Бафф: «Всё как-нибудь сложится» активирован</div>
         </div>
 
         <div className="rounded-lg border border-accent/40 bg-accent/5 p-4">
           <div className="text-xs uppercase tracking-widest text-accent/90 mb-1">
             ⚙ Система
           </div>
-          <div className="text-foreground/95">
-            Получен предмет: <span className="text-primary">🎂 День Рождения</span>
-            <br />
-            Редкость:{" "}
-            <span className="text-primary text-glow-gold font-display">
-              Легендарная
-            </span>
+          <div className="text-foreground/95 space-y-1">
+            <div>
+              Получен предмет:{" "}
+              <span className="text-primary">🎂 День Рождения</span>
+            </div>
+            <div>
+              Редкость:{" "}
+              <span className="text-primary text-glow-gold font-display">
+                Легендарная
+              </span>
+            </div>
+            <div>Эффект:</div>
+            <div>— Восстанавливает настроение</div>
+            <div>— Усиливает тепло вокруг</div>
+            <div>— Призывает хороших людей рядом</div>
           </div>
         </div>
 
-        <p className="text-center font-display text-xl text-glow-gold pt-2">
-          Ты главный герой этой истории ✨
-        </p>
+        <div className="rounded-lg border border-primary/30 bg-primary/5 p-4">
+          <div className="text-primary font-display text-glow-gold mb-2">
+            😼 Симба
+          </div>
+          <p className="text-foreground/95">«35 уровень… неплохо.»</p>
+          <p className="text-foreground/80 italic mt-1">
+            «Но не расслабляйся — впереди ещё много квестов»
+          </p>
+        </div>
+
+        <div className="text-foreground/95 leading-relaxed text-center space-y-2 pt-2">
+          <div className="text-primary">💖 И главное:</div>
+          <div>Ты не просто прокачался.</div>
+          <div className="font-display text-xl text-glow-gold">
+            Ты уже давно — главный герой этой истории ✨
+          </div>
+        </div>
         </motion.div>
 
         <motion.div
@@ -873,14 +917,6 @@ function FinalScreen({ name }: { name: string }) {
             }}
           >
             Продолжить приключение
-          </FantasyButton>
-          <FantasyButton
-            variant="ghost"
-            onClick={() =>
-              window.scrollTo({ top: 0, behavior: "smooth" })
-            }
-          >
-            Открыть инвентарь воспоминаний
           </FantasyButton>
         </motion.div>
 
