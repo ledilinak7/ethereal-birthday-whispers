@@ -160,27 +160,65 @@ class AudioEngine {
 
   private playFanfare(ctx: AudioContext) {
     const now = ctx.currentTime;
-    const seq = [
-      { f: 523.25, t: 0 },
-      { f: 659.25, t: 0.12 },
-      { f: 783.99, t: 0.24 },
-      { f: 1046.5, t: 0.4 },
+    // Classic JRPG victory fanfare — heroic triad run + sustained chord stab.
+    // Melody (C major): C-E-G-C-G-C  then big C-major chord swell.
+    const melody: { f: number; t: number; d: number }[] = [
+      { f: 523.25, t: 0.0, d: 0.14 },   // C5
+      { f: 659.25, t: 0.14, d: 0.14 },  // E5
+      { f: 783.99, t: 0.28, d: 0.14 },  // G5
+      { f: 1046.5, t: 0.42, d: 0.18 },  // C6
+      { f: 783.99, t: 0.62, d: 0.12 },  // G5
+      { f: 1046.5, t: 0.76, d: 1.2 },   // C6 sustained
     ];
-    seq.forEach(({ f, t }) => {
+    melody.forEach(({ f, t, d }) => {
+      const start = now + t;
+      // Two layered oscillators: triangle lead + saw harmonic = brassy bell.
+      (["triangle", "sawtooth"] as OscillatorType[]).forEach((type, i) => {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = type;
+        o.frequency.value = f * (i === 1 ? 2 : 1);
+        const peak = i === 0 ? 0.42 : 0.12;
+        g.gain.setValueAtTime(0, start);
+        g.gain.linearRampToValueAtTime(peak, start + 0.015);
+        g.gain.exponentialRampToValueAtTime(0.0001, start + d);
+        o.connect(g);
+        g.connect(this.sfxGain!);
+        o.start(start);
+        o.stop(start + d + 0.05);
+      });
+    });
+
+    // Sustained triumphant C-major chord underneath final note.
+    const chordStart = now + 0.76;
+    const chordDur = 1.6;
+    [261.63, 329.63, 392.0, 523.25].forEach((f) => {
       const o = ctx.createOscillator();
       const g = ctx.createGain();
       o.type = "triangle";
       o.frequency.value = f;
-      const start = now + t;
-      const dur = 0.5;
-      g.gain.setValueAtTime(0, start);
-      g.gain.linearRampToValueAtTime(0.5, start + 0.02);
-      g.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+      g.gain.setValueAtTime(0, chordStart);
+      g.gain.linearRampToValueAtTime(0.18, chordStart + 0.08);
+      g.gain.linearRampToValueAtTime(0.14, chordStart + chordDur * 0.7);
+      g.gain.exponentialRampToValueAtTime(0.0001, chordStart + chordDur);
       o.connect(g);
       g.connect(this.sfxGain!);
-      o.start(start);
-      o.stop(start + dur + 0.05);
+      o.start(chordStart);
+      o.stop(chordStart + chordDur + 0.05);
     });
+
+    // Timpani-ish low thump at the start for drama.
+    const thump = ctx.createOscillator();
+    const thumpGain = ctx.createGain();
+    thump.type = "sine";
+    thump.frequency.setValueAtTime(160, now);
+    thump.frequency.exponentialRampToValueAtTime(55, now + 0.3);
+    thumpGain.gain.setValueAtTime(0.6, now);
+    thumpGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.45);
+    thump.connect(thumpGain);
+    thumpGain.connect(this.sfxGain!);
+    thump.start(now);
+    thump.stop(now + 0.5);
   }
 
   // ---------- MUSIC ----------
