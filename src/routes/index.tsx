@@ -418,6 +418,30 @@ function Index() {
     };
   }, []);
 
+  // Reset Chapter IV phase whenever we enter scene3.
+  useEffect(() => {
+    if (stage === "scene3") {
+      setScene3Phase("intro");
+      setGlitching(false);
+    }
+  }, [stage]);
+
+  // Secret 4th option: if the player hesitates on the choice screen,
+  // the UI glitches and Симба intervenes.
+  useEffect(() => {
+    if (stage !== "scene3" || scene3Phase !== "choose") return;
+    const t = window.setTimeout(() => {
+      setGlitching(true);
+      void audio.play("tick");
+      window.setTimeout(() => {
+        setGlitching(false);
+        setIdx(0);
+        setScene3Phase("secret-reveal");
+      }, 700);
+    }, 2600);
+    return () => window.clearTimeout(t);
+  }, [stage, scene3Phase]);
+
   const advance = (lines: DialogueLine[], next: Stage) => {
     if (idx + 1 < lines.length) setIdx(idx + 1);
     else setStage(next);
