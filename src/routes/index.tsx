@@ -704,12 +704,16 @@ function SceneShell({
   return (
     <section className="relative min-h-screen flex flex-col px-4 sm:px-6 py-10">
       {bgImage && (
-        <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
+        <div
+          key={bgImage}
+          className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none transition-opacity duration-700 ease-out opacity-100"
+        >
           <img
             src={bgImage}
             alt=""
-            className="max-w-full max-h-full w-auto h-auto object-contain opacity-90 animate-rise"
-            loading="lazy"
+            className="max-w-full max-h-full w-auto h-auto object-contain opacity-90"
+            loading="eager"
+            decoding="async"
           />
           <div
             className="absolute inset-0"
