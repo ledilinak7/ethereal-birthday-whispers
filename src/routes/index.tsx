@@ -75,9 +75,13 @@ const COLORS = {
 function Index() {
   const [stage, setStage] = useState<Stage>("hero");
   const confirmedName = "Сергей";
-  const [choiceResp, setChoiceResp] = useState<string>("");
+  const [choiceResp, setChoiceResp] = useState<string>("1");
   const [heroClass, setHeroClass] = useState<HeroClass | null>(null);
   const [opened, setOpened] = useState(false);
+  const [scene3Phase, setScene3Phase] = useState<
+    "intro" | "choose" | "secret-reveal" | "choose2"
+  >("intro");
+  const [glitching, setGlitching] = useState(false);
 
   // Scene dialogue scripts
   const scene1: DialogueLine[] = useMemo(
