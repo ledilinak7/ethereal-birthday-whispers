@@ -740,6 +740,34 @@ function SceneShell({
 function FinalScreen({ name }: { name: string }) {
   useEffect(() => {
     void audio.play("complete");
+    // Final hero burst — synced with the "Ты главный герой" line reveal
+    const burstDelay = 2400;
+    const t = window.setTimeout(() => {
+      void import("canvas-confetti").then(({ default: confetti }) => {
+        const colors = ["#f5c542", "#fff0a8", "#c084fc", "#7dd3fc", "#fb7185"];
+        confetti({
+          particleCount: 140,
+          spread: 90,
+          startVelocity: 50,
+          origin: { x: 0.5, y: 0.55 },
+          colors,
+          scalar: 1.2,
+          ticks: 260,
+        });
+        window.setTimeout(() => {
+          confetti({
+            particleCount: 70,
+            spread: 120,
+            startVelocity: 35,
+            origin: { x: 0.5, y: 0.6 },
+            colors,
+            scalar: 1.0,
+            shapes: ["circle"],
+          });
+        }, 350);
+      });
+    }, burstDelay);
+    return () => window.clearTimeout(t);
   }, []);
   const container = {
     hidden: {},
