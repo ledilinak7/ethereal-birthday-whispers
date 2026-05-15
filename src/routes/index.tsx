@@ -583,7 +583,7 @@ function Index() {
 
       {/* CINEMATIC — memories merge into the gift */}
       {stage === "gift-cinematic" && (
-        <SceneShell title="Глава V — Дар света">
+        <SceneShell title="Глава V — Дар света" bgImage={cakeReward}>
           <div className="space-y-6">
             {idx === 0 ? (
               <>
@@ -612,7 +612,7 @@ function Index() {
 
       {/* Bridge stage just to reset idx and move to quest-complete */}
       {stage === "gift-narrator" && (
-        <SceneShell title="Глава V — Дар света">
+        <SceneShell title="Глава V — Дар света" bgImage={cakeReward}>
           <div className="text-center space-y-6">
             <div className="font-display text-2xl text-glow-gold">
               ✦ Подарок готов ✦
@@ -625,7 +625,7 @@ function Index() {
       )}
 
       {stage === "quest-complete" && (
-        <SceneShell title="Глава V — Дар света">
+        <SceneShell title="Глава V — Дар света" bgImage={cakeReward}>
           <div className="space-y-8">
             <QuestBanner title="Квест выполнен 🎉" complete />
             <div className="text-center">
