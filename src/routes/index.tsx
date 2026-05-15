@@ -583,7 +583,7 @@ function Index() {
 
       {/* CINEMATIC — memories merge into the gift */}
       {stage === "gift-cinematic" && (
-        <SceneShell title="Глава V — Дар света">
+        <SceneShell title="Глава V — Дар света" bgImage={cakeReward}>
           <div className="space-y-6">
             {idx === 0 ? (
               <>
@@ -612,7 +612,7 @@ function Index() {
 
       {/* Bridge stage just to reset idx and move to quest-complete */}
       {stage === "gift-narrator" && (
-        <SceneShell title="Глава V — Дар света">
+        <SceneShell title="Глава V — Дар света" bgImage={cakeReward}>
           <div className="text-center space-y-6">
             <div className="font-display text-2xl text-glow-gold">
               ✦ Подарок готов ✦
@@ -625,7 +625,7 @@ function Index() {
       )}
 
       {stage === "quest-complete" && (
-        <SceneShell title="Глава V — Дар света">
+        <SceneShell title="Глава V — Дар света" bgImage={cakeReward}>
           <div className="space-y-8">
             <QuestBanner title="Квест выполнен 🎉" complete />
             <div className="text-center">
@@ -704,12 +704,16 @@ function SceneShell({
   return (
     <section className="relative min-h-screen flex flex-col px-4 sm:px-6 py-10">
       {bgImage && (
-        <div className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none">
+        <div
+          key={bgImage}
+          className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none transition-opacity duration-700 ease-out opacity-100"
+        >
           <img
             src={bgImage}
             alt=""
-            className="max-w-full max-h-full w-auto h-auto object-contain opacity-90 animate-rise"
-            loading="lazy"
+            className="max-w-full max-h-full w-auto h-auto object-contain opacity-90"
+            loading="eager"
+            decoding="async"
           />
           <div
             className="absolute inset-0"
@@ -736,6 +740,34 @@ function SceneShell({
 function FinalScreen({ name }: { name: string }) {
   useEffect(() => {
     void audio.play("complete");
+    // Final hero burst — synced with the "Ты главный герой" line reveal
+    const burstDelay = 2400;
+    const t = window.setTimeout(() => {
+      void import("canvas-confetti").then(({ default: confetti }) => {
+        const colors = ["#f5c542", "#fff0a8", "#c084fc", "#7dd3fc", "#fb7185"];
+        confetti({
+          particleCount: 140,
+          spread: 90,
+          startVelocity: 50,
+          origin: { x: 0.5, y: 0.55 },
+          colors,
+          scalar: 1.2,
+          ticks: 260,
+        });
+        window.setTimeout(() => {
+          confetti({
+            particleCount: 70,
+            spread: 120,
+            startVelocity: 35,
+            origin: { x: 0.5, y: 0.6 },
+            colors,
+            scalar: 1.0,
+            shapes: ["circle"],
+          });
+        }, 350);
+      });
+    }, burstDelay);
+    return () => window.clearTimeout(t);
   }, []);
   const container = {
     hidden: {},
@@ -900,9 +932,43 @@ function FinalScreen({ name }: { name: string }) {
         <div className="text-foreground/95 leading-relaxed text-center space-y-2 pt-2">
           <div className="text-primary">💖 И главное:</div>
           <div>Ты не просто прокачался.</div>
-          <div className="font-display text-xl text-glow-gold">
+          <motion.div
+            className="font-display text-2xl sm:text-3xl text-glow-gold relative inline-block"
+            initial={{ opacity: 0, scale: 0.92, filter: "blur(6px)" }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              filter: "blur(0px)",
+              textShadow: [
+                "0 0 16px oklch(0.92 0.16 85 / 0.5)",
+                "0 0 48px oklch(0.92 0.16 85 / 1)",
+                "0 0 24px oklch(0.92 0.16 85 / 0.7)",
+              ],
+            }}
+            transition={{
+              duration: 2.4,
+              delay: 1.8,
+              ease: [0.22, 1, 0.36, 1],
+              textShadow: { duration: 3, repeat: Infinity, repeatType: "mirror" },
+            }}
+          >
+            <motion.span
+              aria-hidden
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none -z-10"
+              initial={{ width: 0, height: 0, opacity: 0 }}
+              animate={{
+                width: [0, 520],
+                height: [0, 520],
+                opacity: [0, 0.7, 0],
+              }}
+              transition={{ duration: 2.2, delay: 2.2, ease: "easeOut" }}
+              style={{
+                background:
+                  "radial-gradient(circle, oklch(1 0.05 85 / 0.95) 0%, oklch(0.92 0.16 85 / 0.45) 35%, transparent 70%)",
+              }}
+            />
             Ты уже давно — главный герой этой истории ✨
-          </div>
+          </motion.div>
         </div>
         </motion.div>
 
