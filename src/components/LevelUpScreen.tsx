@@ -136,7 +136,7 @@ export function LevelUpScreen({
             <div>
               <div className="text-xs uppercase tracking-widest text-primary/80">🐾 Компаньон</div>
               <div className="font-display text-lg text-glow-gold">
-                Симба <span className="text-foreground/70 text-sm">(всегда выше)</span>
+                Симба <span className="text-foreground/70 text-sm">(999 lvl)</span>
               </div>
             </div>
           </div>
