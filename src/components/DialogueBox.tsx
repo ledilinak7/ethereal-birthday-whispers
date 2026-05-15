@@ -44,7 +44,7 @@ export function DialogueBox({
         </span>
         <span className="h-px flex-1 bg-primary/40" />
       </div>
-      <p className="text-foreground/95 leading-relaxed text-base sm:text-lg min-h-[3.5em]">
+      <p className="text-foreground/95 leading-relaxed text-lg sm:text-xl min-h-[3.5em]">
         {done ? line.text : <Typewriter text={line.text} onDone={() => setDone(true)} />}
       </p>
       <div className="mt-3 text-right text-xs text-primary/80 animate-twinkle">
