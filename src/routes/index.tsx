@@ -423,11 +423,21 @@ function Index() {
       {stage === "scene2" && (
         <SceneShell title="Глава II — Огни воспоминаний" bgImage={memoryOrb}>
           <div className="space-y-6">
-            <DialogueBox
-              line={scene2Intro[idx]}
-              onAdvance={() => setIdx(scene2Intro.length)}
-              hint="Собери огоньки ниже ✦"
-            />
+            <div className="jrpg-frame mx-auto w-full max-w-3xl px-5 sm:px-8 py-5 sm:py-6 animate-rise overflow-hidden">
+              <span className="jrpg-corner tl" />
+              <span className="jrpg-corner tr" />
+              <span className="jrpg-corner bl" />
+              <span className="jrpg-corner br" />
+              <div className="mb-2 flex items-center gap-2">
+                <span className={`text-glow-gold font-display text-lg ${COLORS.companion}`}>
+                  {scene2Intro[0].speaker}
+                </span>
+                <span className="h-px flex-1 bg-primary/40" />
+              </div>
+              <p className="text-foreground/95 leading-relaxed text-base sm:text-lg md:text-xl break-words whitespace-pre-line">
+                {scene2Intro[0].text}
+              </p>
+            </div>
             <LightCollector
               lights={[
                 { label: "Тёплое воспоминание" },
