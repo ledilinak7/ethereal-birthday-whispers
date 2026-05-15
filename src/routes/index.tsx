@@ -214,11 +214,64 @@ function Index() {
 
   const scene3Intro: DialogueLine[] = useMemo(
     () => [
-      {
-        speaker: "Симба",
-        color: COLORS.companion,
-        text: "Финальное испытание! Очень серьёзное!",
-      },
+      { speaker: "Симба", color: COLORS.companion, text: "Вот оно…" },
+      { speaker: "Симба", color: COLORS.companion, text: "Великое испытание." },
+      { speaker: "Симба", color: COLORS.companion, text: "Торт судьбы." },
+      { speaker: "Система", color: "text-primary", text: "Внимание: выбор влияет на настроение." },
+      { speaker: "Система", color: "text-primary", text: "Рекомендуется действовать сердцем." },
+      { speaker: "Система", color: "text-primary", text: "...или аппетитом." },
+      { speaker: "Симба", color: COLORS.companion, text: "В идеале — и тем, и другим 😼" },
+    ],
+    []
+  );
+
+  const secretIntroLines: DialogueLine[] = useMemo(
+    () => [
+      { speaker: "Симба", color: COLORS.companion, text: "Так… стоп." },
+      { speaker: "Симба", color: COLORS.companion, text: "Мне кажется, тут кое-что упустили." },
+      { speaker: "Система", color: "text-primary", text: "Обнаружено вмешательство извне." },
+    ],
+    []
+  );
+
+  const responseLines: Record<string, DialogueLine[]> = useMemo(
+    () => ({
+      "1": [
+        { speaker: "Система", color: "text-primary", text: "Путь выбран: Максимальное удовольствие." },
+        { speaker: "Симба", color: COLORS.companion, text: "Сильный ход." },
+        { speaker: "Симба", color: COLORS.companion, text: "Иногда лучший выбор — самый вкусный." },
+        { speaker: "Система", color: "text-primary", text: "+10 к счастью   −1 кусок торта 🍰" },
+      ],
+      "2": [
+        { speaker: "Система", color: "text-primary", text: "Путь выбран: Великодушный герой." },
+        { speaker: "Симба", color: COLORS.companion, text: "Поделиться — благородно." },
+        { speaker: "Симба", color: COLORS.companion, text: "Отдать лучший кусок — подозрительно." },
+        { speaker: "Симба", color: COLORS.companion, text: "Ты точно не пытаешься меня задобрить? 😼" },
+        { speaker: "Система", color: "text-primary", text: "+20 к доброте   +10 к карме ✨" },
+      ],
+      "3": [
+        { speaker: "Система", color: "text-primary", text: "Путь выбран: Хранитель момента." },
+        { speaker: "Симба", color: COLORS.companion, text: "Контент превыше всего!" },
+        { speaker: "Симба", color: COLORS.companion, text: "Но потом ты обязан его съесть 😼" },
+        { speaker: "Система", color: "text-primary", text: "+15 к воспоминаниям   +10 к невидимым лайкам 📸" },
+      ],
+      "4": [
+        { speaker: "Симба", color: COLORS.companion, text: "...наконец-то." },
+        { speaker: "Симба", color: COLORS.companion, text: "Единственный правильный выбор 😼" },
+        { speaker: "Рассказчик", color: COLORS.narrator, text: "Иногда лучшие решения — самые простые." },
+        { speaker: "Система", color: "text-primary", text: "Скрытый выбор обнаружен. Бонус активирован." },
+        { speaker: "Система", color: "text-primary", text: "+50 к дружбе   +25 к удаче   +∞ к доверию кота 🐾" },
+      ],
+    }),
+    []
+  );
+
+  const finalLines: DialogueLine[] = useMemo(
+    () => [
+      { speaker: "Рассказчик", color: COLORS.narrator, text: "Какой бы путь ты ни выбрал…" },
+      { speaker: "Рассказчик", color: COLORS.narrator, text: "Он был правильным." },
+      { speaker: "Система", color: "text-primary", text: "Испытание завершено. Генерация награды…" },
+      { speaker: "Система", color: "text-primary", text: "Бросок удачи… 🎲 …критический успех!" },
     ],
     []
   );
