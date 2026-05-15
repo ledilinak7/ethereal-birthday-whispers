@@ -595,29 +595,41 @@ function Index() {
       {/* CINEMATIC — memories merge into the gift */}
       {stage === "gift-cinematic" && (
         <SceneShell title="Глава V — Дар света">
-          <div className="space-y-6">
+          <div className="space-y-6 animate-rise">
             {idx === 0 ? (
-              <>
-                <GiftMaterialize onDone={() => setIdx(1)} />
-                <DialogueBox
-                  line={catReaction[0]}
-                  onAdvance={() => setIdx(1)}
-                  hint="✦ цепочка света... ✦"
-                />
-              </>
+              <GiftMaterialize onDone={() => setIdx(1)} />
             ) : (
               <>
-                <GiftBox opened={false} />
-                <DialogueBox
-                  line={giftNarrator[Math.min(idx - 1, giftNarrator.length - 1)]}
-                  onAdvance={() => {
-                    if (idx - 1 + 1 < giftNarrator.length) setIdx(idx + 1);
-                    else {
-                      setIdx(0);
-                      setStage("gift-narrator");
+                <motion.div
+                  key="giftbox-reveal"
+                  initial={{ opacity: 0, scale: 0.9, filter: "blur(8px)" }}
+                  animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                  transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <GiftBox opened={false} />
+                </motion.div>
+                <motion.div
+                  key={`line-${idx}`}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: idx === 1 ? 0.5 : 0.1, ease: "easeOut" }}
+                >
+                  <DialogueBox
+                    line={
+                      idx === 1
+                        ? catReaction[0]
+                        : giftNarrator[Math.min(idx - 2, giftNarrator.length - 1)]
                     }
-                  }}
-                />
+                    onAdvance={() => {
+                      const totalLines = 1 + giftNarrator.length; // cat + narrator lines
+                      if (idx < totalLines) setIdx(idx + 1);
+                      else {
+                        setIdx(0);
+                        setStage("gift-narrator");
+                      }
+                    }}
+                  />
+                </motion.div>
               </>
             )}
           </div>
