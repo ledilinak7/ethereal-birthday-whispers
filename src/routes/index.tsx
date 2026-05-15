@@ -12,6 +12,7 @@ import { audio } from "@/lib/audio";
 import { Confetti } from "@/components/Confetti";
 import { FloatingParticles } from "@/components/FloatingParticles";
 import { GiftMaterialize } from "@/components/GiftMaterialize";
+import { GiftBox } from "@/components/GiftBox";
 import { LevelUpScreen } from "@/components/LevelUpScreen";
 import { motion } from "framer-motion";
 import heroPortrait from "@/assets/hero-portrait.png";
@@ -565,7 +566,7 @@ function Index() {
 
       {/* SCENE 4 — gift appears */}
       {stage === "scene4" && (
-        <SceneShell title="Глава V — Дар света" bgImage={cakeReward}>
+        <SceneShell title="Глава V — Дар света">
           <div className="space-y-8">
             <DialogueBox
               line={scene4[idx]}
@@ -583,7 +584,7 @@ function Index() {
 
       {/* CINEMATIC — memories merge into the gift */}
       {stage === "gift-cinematic" && (
-        <SceneShell title="Глава V — Дар света" bgImage={cakeReward}>
+        <SceneShell title="Глава V — Дар света">
           <div className="space-y-6">
             {idx === 0 ? (
               <>
@@ -595,16 +596,19 @@ function Index() {
                 />
               </>
             ) : (
-              <DialogueBox
-                line={giftNarrator[Math.min(idx - 1, giftNarrator.length - 1)]}
-                onAdvance={() => {
-                  if (idx - 1 + 1 < giftNarrator.length) setIdx(idx + 1);
-                  else {
-                    setIdx(0);
-                    setStage("gift-narrator");
-                  }
-                }}
-              />
+              <>
+                <GiftBox opened={false} />
+                <DialogueBox
+                  line={giftNarrator[Math.min(idx - 1, giftNarrator.length - 1)]}
+                  onAdvance={() => {
+                    if (idx - 1 + 1 < giftNarrator.length) setIdx(idx + 1);
+                    else {
+                      setIdx(0);
+                      setStage("gift-narrator");
+                    }
+                  }}
+                />
+              </>
             )}
           </div>
         </SceneShell>
@@ -612,8 +616,9 @@ function Index() {
 
       {/* Bridge stage just to reset idx and move to quest-complete */}
       {stage === "gift-narrator" && (
-        <SceneShell title="Глава V — Дар света" bgImage={cakeReward}>
+        <SceneShell title="Глава V — Дар света">
           <div className="text-center space-y-6">
+            <GiftBox opened={false} />
             <div className="font-display text-2xl text-glow-gold">
               ✦ Подарок готов ✦
             </div>
@@ -625,8 +630,9 @@ function Index() {
       )}
 
       {stage === "quest-complete" && (
-        <SceneShell title="Глава V — Дар света" bgImage={cakeReward}>
+        <SceneShell title="Глава V — Дар света">
           <div className="space-y-8">
+            <GiftBox opened={false} />
             <QuestBanner title="Квест выполнен 🎉" complete />
             <div className="text-center">
               <FantasyButton onClick={() => { setOpened(true); setStage("open"); }}>
