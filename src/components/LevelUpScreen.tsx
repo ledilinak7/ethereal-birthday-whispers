@@ -12,12 +12,12 @@ const CLASS_LABEL: Record<HeroClass, string> = {
 };
 
 const STATS: { icon: string; name: string; value: number; flavor: string }[] = [
-  { icon: "💡", name: "Интеллект (Coding Power)", value: 25, flavor: "Пишет код быстрее, чем баги успевают появляться" },
-  { icon: "🎸", name: "Харизма (Guitar Aura)", value: 18, flavor: "Создаёт атмосферу за пару аккордов" },
-  { icon: "🐾", name: "Эмпатия (Cat Affinity)", value: 30, flavor: "Коты выбирают его. Всегда." },
-  { icon: "🏋️", name: "Сила (Deadlift Force)", value: 22, flavor: "Поднимает железо и мораль команды" },
-  { icon: "🧠", name: "Мудрость (Debugging Sense)", value: 27, flavor: "Находит баг до того, как он найден" },
-  { icon: "🎮", name: "Реакция (Gamer Reflex)", value: 20, flavor: "Быстро реагирует — особенно на запуск игры" },
+  { icon: "💡", name: "Интеллект", value: 25, flavor: "Пишет код быстрее, чем баги успевают появляться" },
+  { icon: "🎸", name: "Харизма", value: 18, flavor: "Создаёт атмосферу за пару аккордов" },
+  { icon: "🐾", name: "Эмпатия", value: 30, flavor: "Коты выбирают его. Всегда." },
+  { icon: "🏋️", name: "Сила", value: 22, flavor: "Поднимает железо и мораль команды" },
+  { icon: "🧠", name: "Мудрость", value: 27, flavor: "Находит баг до того, как он найден" },
+  { icon: "🎮", name: "Реакция", value: 20, flavor: "Быстро реагирует — особенно на запуск игры" },
 ];
 
 const SKILLS: { icon: string; name: string; note: string }[] = [
