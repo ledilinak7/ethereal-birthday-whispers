@@ -613,45 +613,134 @@ function Index() {
         />
       )}
 
-      {/* SCENE 3 — funny choice */}
+      {/* SCENE 3 / CHAPTER IV — The Great Trial */}
       {stage === "scene3" && (
         <SceneShell
           title="Глава IV — Великое испытание"
-          bgImage={idx >= scene3Intro.length ? cakeReward : undefined}
+          bgImage={cakeReward}
         >
-          {idx < scene3Intro.length ? (
-            <DialogueBox
-              line={scene3Intro[idx]}
-              onAdvance={() => setIdx(idx + 1)}
-            />
-          ) : (
-            <ChoiceMenu
-              choices={[
-                { label: "Съесть торт сразу 🍰", value: "1" },
-                { label: "Поделиться 🤝", value: "2" },
-                { label: "Сфоткать 📸", value: "3" },
-              ]}
-              onChoose={(v) => {
-                setChoiceResp(
-                  v === "1"
-                    ? "Сильный ход."
-                    : v === "2"
-                      ? "Настоящий герой."
-                      : "Контент превыше всего!"
-                );
-                setStage("scene3-response");
+          {/* Cinematic glow + light rays over the cake */}
+          <div className="pointer-events-none fixed inset-0 -z-0">
+            <div className="absolute inset-0 bg-gradient-to-b from-amber-300/10 via-transparent to-transparent animate-pulse" />
+            <div
+              className="absolute left-1/2 top-0 h-[60vh] w-[80vw] -translate-x-1/2 opacity-30 blur-2xl"
+              style={{
+                background:
+                  "radial-gradient(ellipse at center top, oklch(0.92 0.16 85 / 0.55), transparent 70%)",
               }}
             />
+          </div>
+
+          {scene3Phase === "intro" && (
+            <DialogueBox
+              line={scene3Intro[idx]}
+              onAdvance={() => {
+                if (idx + 1 < scene3Intro.length) setIdx(idx + 1);
+                else {
+                  setIdx(0);
+                  setScene3Phase("choose");
+                }
+              }}
+            />
+          )}
+
+          {scene3Phase === "choose" && (
+            <div
+              className={`transition-transform ${
+                glitching ? "animate-[shake_0.15s_linear_infinite]" : ""
+              }`}
+              style={
+                glitching
+                  ? { filter: "hue-rotate(15deg) contrast(1.1)" }
+                  : undefined
+              }
+            >
+              <ChoiceMenu
+                choices={[
+                  { label: "Съесть торт сразу 🍰", value: "1" },
+                  { label: "Поделиться 🤝", value: "2" },
+                  { label: "Сфоткать 📸", value: "3" },
+                ]}
+                onChoose={(v) => {
+                  setChoiceResp(v);
+                  setIdx(0);
+                  setStage("scene3-response");
+                }}
+              />
+            </div>
+          )}
+
+          {scene3Phase === "secret-reveal" && (
+            <DialogueBox
+              line={secretIntroLines[idx]}
+              onAdvance={() => {
+                if (idx + 1 < secretIntroLines.length) setIdx(idx + 1);
+                else setScene3Phase("choose2");
+              }}
+            />
+          )}
+
+          {scene3Phase === "choose2" && (
+            <div className="mx-auto max-w-md space-y-3 animate-rise">
+              <ChoiceMenu
+                choices={[
+                  { label: "Съесть торт сразу 🍰", value: "1" },
+                  { label: "Поделиться 🤝", value: "2" },
+                  { label: "Сфоткать 📸", value: "3" },
+                ]}
+                onChoose={(v) => {
+                  setChoiceResp(v);
+                  setIdx(0);
+                  setStage("scene3-response");
+                }}
+              />
+              <button
+                onClick={() => {
+                  void audio.play("collect");
+                  setChoiceResp("4");
+                  setIdx(0);
+                  setStage("scene3-response");
+                }}
+                className="group relative w-full overflow-hidden jrpg-frame px-4 py-3 text-left animate-rise transition-all hover:scale-[1.02]"
+                style={{
+                  boxShadow:
+                    "0 0 24px oklch(0.92 0.16 85 / 0.45), inset 0 0 18px oklch(0.92 0.16 85 / 0.25)",
+                  animation:
+                    "pulse 2.4s ease-in-out infinite, rise 0.6s ease-out",
+                }}
+              >
+                <span className="jrpg-corner tl" />
+                <span className="jrpg-corner tr" />
+                <span className="jrpg-corner bl" />
+                <span className="jrpg-corner br" />
+                <span className="font-body text-base sm:text-lg text-glow-gold">
+                  ✨ Поделиться с Симбой 🐾
+                </span>
+              </button>
+            </div>
           )}
         </SceneShell>
       )}
 
       {stage === "scene3-response" && (
         <SceneShell title="Глава IV — Великое испытание" bgImage={cakeReward}>
-          <DialogueBox
-            line={{ speaker: "Симба", color: COLORS.companion, text: choiceResp }}
-            onAdvance={() => setStage("scene4")}
-          />
+          <div className="space-y-6">
+            {choiceResp === "4" && idx === 0 && (
+              <QuestBanner title="🏆 Достижение: Лучший друг" />
+            )}
+            {(() => {
+              const lines = [...responseLines[choiceResp], ...finalLines];
+              return (
+                <DialogueBox
+                  line={lines[idx]}
+                  onAdvance={() => {
+                    if (idx + 1 < lines.length) setIdx(idx + 1);
+                    else setStage("scene4");
+                  }}
+                />
+              );
+            })()}
+          </div>
         </SceneShell>
       )}
 
