@@ -12,6 +12,7 @@ import { audio } from "@/lib/audio";
 import { Confetti } from "@/components/Confetti";
 import { FloatingParticles } from "@/components/FloatingParticles";
 import { GiftMaterialize } from "@/components/GiftMaterialize";
+import { GiftBox } from "@/components/GiftBox";
 import { LevelUpScreen } from "@/components/LevelUpScreen";
 import { motion } from "framer-motion";
 import heroPortrait from "@/assets/hero-portrait.png";
