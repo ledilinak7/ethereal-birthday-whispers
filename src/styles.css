@@ -136,6 +136,13 @@
   0%, 100% { transform: translateY(0) rotate(-2deg); }
   50% { transform: translateY(-12px) rotate(2deg); }
 }
+@keyframes shake {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-2px, 1px); }
+  40% { transform: translate(2px, -1px); }
+  60% { transform: translate(-1px, 2px); }
+  80% { transform: translate(1px, -2px); }
+}
 
 .animate-float-slow { animation: float-slow 6s ease-in-out infinite; }
 .animate-drift-slow { animation: drift 60s linear infinite; }
