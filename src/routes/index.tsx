@@ -932,9 +932,43 @@ function FinalScreen({ name }: { name: string }) {
         <div className="text-foreground/95 leading-relaxed text-center space-y-2 pt-2">
           <div className="text-primary">💖 И главное:</div>
           <div>Ты не просто прокачался.</div>
-          <div className="font-display text-xl text-glow-gold">
+          <motion.div
+            className="font-display text-2xl sm:text-3xl text-glow-gold relative inline-block"
+            initial={{ opacity: 0, scale: 0.92, filter: "blur(6px)" }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              filter: "blur(0px)",
+              textShadow: [
+                "0 0 16px oklch(0.92 0.16 85 / 0.5)",
+                "0 0 48px oklch(0.92 0.16 85 / 1)",
+                "0 0 24px oklch(0.92 0.16 85 / 0.7)",
+              ],
+            }}
+            transition={{
+              duration: 2.4,
+              delay: 1.8,
+              ease: [0.22, 1, 0.36, 1],
+              textShadow: { duration: 3, repeat: Infinity, repeatType: "mirror" },
+            }}
+          >
+            <motion.span
+              aria-hidden
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none -z-10"
+              initial={{ width: 0, height: 0, opacity: 0 }}
+              animate={{
+                width: [0, 520],
+                height: [0, 520],
+                opacity: [0, 0.7, 0],
+              }}
+              transition={{ duration: 2.2, delay: 2.2, ease: "easeOut" }}
+              style={{
+                background:
+                  "radial-gradient(circle, oklch(1 0.05 85 / 0.95) 0%, oklch(0.92 0.16 85 / 0.45) 35%, transparent 70%)",
+              }}
+            />
             Ты уже давно — главный герой этой истории ✨
-          </div>
+          </motion.div>
         </div>
         </motion.div>
 
