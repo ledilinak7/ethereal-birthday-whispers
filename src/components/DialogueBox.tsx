@@ -28,7 +28,7 @@ export function DialogueBox({
 
   return (
     <div
-      className="jrpg-frame mx-auto max-w-3xl px-6 py-5 cursor-pointer select-none animate-rise"
+      className="jrpg-frame mx-auto w-full max-w-3xl px-6 sm:px-8 py-6 cursor-pointer select-none animate-rise"
       onClick={handleClick}
       role="button"
     >
