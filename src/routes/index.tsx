@@ -79,7 +79,6 @@ function Index() {
   const [choiceResp, setChoiceResp] = useState<string>("");
   const [heroClass, setHeroClass] = useState<HeroClass | null>(null);
   const [opened, setOpened] = useState(false);
-  const [epilogue, setEpilogue] = useState(false);
 
   // Scene dialogue scripts
   const scene1: DialogueLine[] = useMemo(
