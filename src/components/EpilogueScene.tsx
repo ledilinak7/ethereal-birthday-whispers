@@ -218,9 +218,7 @@ export function EpilogueScene() {
         )}
       </AnimatePresence>
 
-      {songUrl && (
-        <audio ref={audioRef} src={songUrl} loop className="hidden" />
-      )}
+      <audio ref={audioRef} src={heroSong} loop className="hidden" />
     </motion.div>
   );
 }
