@@ -14,6 +14,7 @@ import { FloatingParticles } from "@/components/FloatingParticles";
 import { GiftMaterialize } from "@/components/GiftMaterialize";
 import { GiftBox } from "@/components/GiftBox";
 import { LevelUpScreen } from "@/components/LevelUpScreen";
+import { EpilogueScene } from "@/components/EpilogueScene";
 import { motion } from "framer-motion";
 import heroPortrait from "@/assets/hero-portrait.png";
 import forestPath from "@/assets/forest-path.png";
@@ -766,6 +767,7 @@ function SceneShell({
 }
 
 function FinalScreen({ name }: { name: string }) {
+  const [epilogue, setEpilogue] = useState(false);
   useEffect(() => {
     void audio.play("complete");
     // Final hero burst — synced with the "Ты главный герой" line reveal
@@ -1006,13 +1008,15 @@ function FinalScreen({ name }: { name: string }) {
         >
           <FantasyButton
             onClick={() => {
-              window.scrollTo({ top: 0, behavior: "smooth" });
-              window.location.reload();
+              void audio.play("choice");
+              setEpilogue(true);
             }}
           >
             Продолжить приключение
           </FantasyButton>
         </motion.div>
+
+        {epilogue && <EpilogueScene />}
 
       </motion.div>
     </section>
