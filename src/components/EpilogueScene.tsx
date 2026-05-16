@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { audio } from "@/lib/audio";
+import heroSong from "@/assets/hero-song.mp3";
 
 type Phase = "fadeout" | "save" | "road-intro" | "dialogue" | "silence" | "music" | "glitch" | "after";
 
@@ -14,8 +15,6 @@ const dialogue = [
 export function EpilogueScene() {
   const [phase, setPhase] = useState<Phase>("fadeout");
   const [lineIdx, setLineIdx] = useState(0);
-  const [songUrl, setSongUrl] = useState<string | null>(null);
-  const [needSong, setNeedSong] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const glitchTimer = useRef<number | null>(null);
 
@@ -35,7 +34,7 @@ export function EpilogueScene() {
   // Auto-advance dialogue
   useEffect(() => {
     if (phase !== "dialogue") return;
-    const isPause = lineIdx === 3; // pause before last line
+    const isPause = lineIdx === 3;
     const delay = isPause ? 2600 : 3200;
     const t = window.setTimeout(() => {
       if (lineIdx < dialogue.length - 1) {
@@ -47,12 +46,25 @@ export function EpilogueScene() {
     return () => clearTimeout(t);
   }, [phase, lineIdx]);
 
-  // Silence -> ask for song or start music
+  // Silence -> start hero song with fade-in
   useEffect(() => {
     if (phase !== "silence") return;
     const t = window.setTimeout(() => {
       audio.stopMusic();
-      setNeedSong(true);
+      setPhase("music");
+      requestAnimationFrame(() => {
+        const el = audioRef.current;
+        if (!el) return;
+        el.volume = 0;
+        void el.play().catch(() => {});
+        const start = performance.now();
+        const fade = (now: number) => {
+          const p = Math.min(1, (now - start) / 3000);
+          if (el) el.volume = p * 0.85;
+          if (p < 1) requestAnimationFrame(fade);
+        };
+        requestAnimationFrame(fade);
+      });
     }, 1600);
     return () => clearTimeout(t);
   }, [phase]);
@@ -71,32 +83,6 @@ export function EpilogueScene() {
     const t = window.setTimeout(() => setPhase("after"), 4200);
     return () => clearTimeout(t);
   }, [phase]);
-
-  const handleSong = (file: File) => {
-    const url = URL.createObjectURL(file);
-    setSongUrl(url);
-    setNeedSong(false);
-    setPhase("music");
-    requestAnimationFrame(() => {
-      const el = audioRef.current;
-      if (!el) return;
-      el.volume = 0;
-      void el.play().catch(() => {});
-      // fade in
-      const start = performance.now();
-      const fade = (now: number) => {
-        const t = Math.min(1, (now - start) / 3000);
-        if (el) el.volume = t * 0.85;
-        if (t < 1) requestAnimationFrame(fade);
-      };
-      requestAnimationFrame(fade);
-    });
-  };
-
-  const skipSong = () => {
-    setNeedSong(false);
-    setPhase("music");
-  };
 
   return (
     <motion.div
@@ -178,50 +164,6 @@ export function EpilogueScene() {
         )}
       </AnimatePresence>
 
-      {/* Song picker */}
-      <AnimatePresence>
-        {needSong && (
-          <motion.div
-            className="absolute inset-0 flex items-center justify-center px-6 z-10"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="text-center backdrop-blur-md bg-background/40 rounded-2xl px-8 py-7 border border-primary/30 max-w-md">
-              <div className="font-display text-primary text-glow-gold text-xl mb-3">
-                🎵 Выбери песню для финала
-              </div>
-              <p className="text-foreground/80 text-sm mb-5">
-                Загрузи свою любимую — она станет саундтреком этого момента.
-              </p>
-              <label className="inline-block cursor-pointer">
-                <input
-                  type="file"
-                  accept="audio/*"
-                  className="hidden"
-                  onChange={(e) => {
-                    const f = e.target.files?.[0];
-                    if (f) handleSong(f);
-                  }}
-                />
-                <span className="inline-block px-5 py-2.5 rounded-lg bg-primary/20 hover:bg-primary/30 border border-primary/40 text-primary transition-colors">
-                  📂 Выбрать файл
-                </span>
-              </label>
-              <div className="mt-3">
-                <button
-                  onClick={skipSong}
-                  className="text-xs text-foreground/60 hover:text-foreground/90 underline"
-                >
-                  Пропустить
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* Final on-screen text */}
       <AnimatePresence>
         {(phase === "music" || phase === "glitch" || phase === "after") && (
@@ -276,9 +218,7 @@ export function EpilogueScene() {
         )}
       </AnimatePresence>
 
-      {songUrl && (
-        <audio ref={audioRef} src={songUrl} loop className="hidden" />
-      )}
+      <audio ref={audioRef} src={heroSong} loop className="hidden" />
     </motion.div>
   );
 }
