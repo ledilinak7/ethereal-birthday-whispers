@@ -164,50 +164,6 @@ export function EpilogueScene() {
         )}
       </AnimatePresence>
 
-      {/* Song picker */}
-      <AnimatePresence>
-        {needSong && (
-          <motion.div
-            className="absolute inset-0 flex items-center justify-center px-6 z-10"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="text-center backdrop-blur-md bg-background/40 rounded-2xl px-8 py-7 border border-primary/30 max-w-md">
-              <div className="font-display text-primary text-glow-gold text-xl mb-3">
-                🎵 Выбери песню для финала
-              </div>
-              <p className="text-foreground/80 text-sm mb-5">
-                Загрузи свою любимую — она станет саундтреком этого момента.
-              </p>
-              <label className="inline-block cursor-pointer">
-                <input
-                  type="file"
-                  accept="audio/*"
-                  className="hidden"
-                  onChange={(e) => {
-                    const f = e.target.files?.[0];
-                    if (f) handleSong(f);
-                  }}
-                />
-                <span className="inline-block px-5 py-2.5 rounded-lg bg-primary/20 hover:bg-primary/30 border border-primary/40 text-primary transition-colors">
-                  📂 Выбрать файл
-                </span>
-              </label>
-              <div className="mt-3">
-                <button
-                  onClick={skipSong}
-                  className="text-xs text-foreground/60 hover:text-foreground/90 underline"
-                >
-                  Пропустить
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* Final on-screen text */}
       <AnimatePresence>
         {(phase === "music" || phase === "glitch" || phase === "after") && (
