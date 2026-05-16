@@ -15,8 +15,6 @@ const dialogue = [
 export function EpilogueScene() {
   const [phase, setPhase] = useState<Phase>("fadeout");
   const [lineIdx, setLineIdx] = useState(0);
-  const [songUrl, setSongUrl] = useState<string | null>(null);
-  const [needSong, setNeedSong] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const glitchTimer = useRef<number | null>(null);
 
@@ -36,7 +34,7 @@ export function EpilogueScene() {
   // Auto-advance dialogue
   useEffect(() => {
     if (phase !== "dialogue") return;
-    const isPause = lineIdx === 3; // pause before last line
+    const isPause = lineIdx === 3;
     const delay = isPause ? 2600 : 3200;
     const t = window.setTimeout(() => {
       if (lineIdx < dialogue.length - 1) {
@@ -48,12 +46,25 @@ export function EpilogueScene() {
     return () => clearTimeout(t);
   }, [phase, lineIdx]);
 
-  // Silence -> ask for song or start music
+  // Silence -> start hero song with fade-in
   useEffect(() => {
     if (phase !== "silence") return;
     const t = window.setTimeout(() => {
       audio.stopMusic();
-      setNeedSong(true);
+      setPhase("music");
+      requestAnimationFrame(() => {
+        const el = audioRef.current;
+        if (!el) return;
+        el.volume = 0;
+        void el.play().catch(() => {});
+        const start = performance.now();
+        const fade = (now: number) => {
+          const p = Math.min(1, (now - start) / 3000);
+          if (el) el.volume = p * 0.85;
+          if (p < 1) requestAnimationFrame(fade);
+        };
+        requestAnimationFrame(fade);
+      });
     }, 1600);
     return () => clearTimeout(t);
   }, [phase]);
@@ -72,32 +83,6 @@ export function EpilogueScene() {
     const t = window.setTimeout(() => setPhase("after"), 4200);
     return () => clearTimeout(t);
   }, [phase]);
-
-  const handleSong = (file: File) => {
-    const url = URL.createObjectURL(file);
-    setSongUrl(url);
-    setNeedSong(false);
-    setPhase("music");
-    requestAnimationFrame(() => {
-      const el = audioRef.current;
-      if (!el) return;
-      el.volume = 0;
-      void el.play().catch(() => {});
-      // fade in
-      const start = performance.now();
-      const fade = (now: number) => {
-        const t = Math.min(1, (now - start) / 3000);
-        if (el) el.volume = t * 0.85;
-        if (t < 1) requestAnimationFrame(fade);
-      };
-      requestAnimationFrame(fade);
-    });
-  };
-
-  const skipSong = () => {
-    setNeedSong(false);
-    setPhase("music");
-  };
 
   return (
     <motion.div
