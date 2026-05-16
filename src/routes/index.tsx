@@ -14,6 +14,7 @@ import { FloatingParticles } from "@/components/FloatingParticles";
 import { GiftMaterialize } from "@/components/GiftMaterialize";
 import { GiftBox } from "@/components/GiftBox";
 import { LevelUpScreen } from "@/components/LevelUpScreen";
+import { EpilogueScene } from "@/components/EpilogueScene";
 import { motion } from "framer-motion";
 import heroPortrait from "@/assets/hero-portrait.png";
 import forestPath from "@/assets/forest-path.png";
