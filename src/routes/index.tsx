@@ -1008,13 +1008,15 @@ function FinalScreen({ name }: { name: string }) {
         >
           <FantasyButton
             onClick={() => {
-              window.scrollTo({ top: 0, behavior: "smooth" });
-              window.location.reload();
+              void audio.play("choice");
+              setEpilogue(true);
             }}
           >
             Продолжить приключение
           </FantasyButton>
         </motion.div>
+
+        {epilogue && <EpilogueScene />}
 
       </motion.div>
     </section>
