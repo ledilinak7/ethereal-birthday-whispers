@@ -767,6 +767,7 @@ function SceneShell({
 }
 
 function FinalScreen({ name }: { name: string }) {
+  const [epilogue, setEpilogue] = useState(false);
   useEffect(() => {
     void audio.play("complete");
     // Final hero burst — synced with the "Ты главный герой" line reveal
