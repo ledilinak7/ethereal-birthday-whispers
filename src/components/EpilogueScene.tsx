@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { audio } from "@/lib/audio";
+import { type DialogueLine } from "@/components/DialogueBox";
 import heroSong from "@/assets/hero-song.mp3";
 import heroSprite from "@/assets/hero-walking.png";
 
 type Phase = "fadeout" | "save" | "road-intro" | "dialogue" | "silence" | "music" | "glitch" | "after";
 
-const dialogue = [
+const dialogue: DialogueLine[] = [
   { speaker: "🎮 Система", text: "Сценарий завершён", color: "text-accent" },
   { speaker: "💫 Рассказчик", text: "Это был лишь один из квестов", color: "text-secondary" },
   { speaker: "😼 Симба (off-screen)", text: "Пойдём дальше?", color: "text-primary" },
@@ -92,6 +93,14 @@ export function EpilogueScene() {
       animate={{ opacity: 1 }}
       transition={{ duration: 1.2 }}
     >
+      {/* Chapter title */}
+      <header className="absolute top-6 left-0 right-0 text-center z-10 animate-rise pointer-events-none">
+        <div className="font-display text-primary/80 tracking-[0.4em] text-xs uppercase">
+          ✦ Эпилог ✦
+        </div>
+        <div className="mx-auto mt-2 h-px w-32 bg-primary/40" />
+      </header>
+
       {/* Save chime flash */}
       <AnimatePresence>
         {phase === "save" && (
@@ -151,15 +160,20 @@ export function EpilogueScene() {
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.9, ease: "easeOut" }}
           >
-            <div className="max-w-2xl text-center backdrop-blur-sm bg-background/30 rounded-2xl px-8 py-5 border border-primary/20">
-              <div
-                className={`font-display text-base sm:text-lg mb-2 ${dialogue[lineIdx].color}`}
-              >
-                {dialogue[lineIdx].speaker}
+            <div className="jrpg-frame mx-auto w-full max-w-3xl px-5 sm:px-8 py-5 sm:py-6 overflow-hidden text-center">
+              <span className="jrpg-corner tl" />
+              <span className="jrpg-corner tr" />
+              <span className="jrpg-corner bl" />
+              <span className="jrpg-corner br" />
+              <div className="mb-2 flex items-center gap-2">
+                <span className={`text-glow-gold font-display text-lg ${dialogue[lineIdx].color}`}>
+                  {dialogue[lineIdx].speaker}
+                </span>
+                <span className="h-px flex-1 bg-primary/40" />
               </div>
-              <div className="text-foreground/95 text-lg sm:text-xl leading-relaxed whitespace-pre-line">
+              <p className="text-foreground/95 leading-relaxed text-base sm:text-lg md:text-xl min-h-[3.5em] break-words whitespace-pre-line">
                 {dialogue[lineIdx].text}
-              </div>
+              </p>
             </div>
           </motion.div>
         )}
