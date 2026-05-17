@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { audio } from "@/lib/audio";
+import { DialogueBox, type DialogueLine } from "@/components/DialogueBox";
 import heroSong from "@/assets/hero-song.mp3";
 import heroSprite from "@/assets/hero-walking.png";
 
 type Phase = "fadeout" | "save" | "road-intro" | "dialogue" | "silence" | "music" | "glitch" | "after";
 
-const dialogue = [
+const epilogueDialogue: DialogueLine[] = [
   { speaker: "🎮 Система", text: "Сценарий завершён", color: "text-accent" },
   { speaker: "💫 Рассказчик", text: "Это был лишь один из квестов", color: "text-secondary" },
   { speaker: "😼 Симба (off-screen)", text: "Пойдём дальше?", color: "text-primary" },
