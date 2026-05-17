@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { audio } from "@/lib/audio";
 import heroSong from "@/assets/hero-song.mp3";
+import heroSprite from "@/assets/hero-walking.png";
 
 type Phase = "fadeout" | "save" | "road-intro" | "dialogue" | "silence" | "music" | "glitch" | "after";
 
