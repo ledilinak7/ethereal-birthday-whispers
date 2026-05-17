@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { audio } from "@/lib/audio";
 import heroSong from "@/assets/hero-song.mp3";
+import heroSprite from "@/assets/hero-walking.png";
 
 type Phase = "fadeout" | "save" | "road-intro" | "dialogue" | "silence" | "music" | "glitch" | "after";
 
@@ -295,6 +296,30 @@ function RoadScene({ phase }: { phase: Phase }) {
 
       {/* Drifting light particles */}
       <Particles />
+
+      {/* Hero sprite walking down the road toward the sunset */}
+      <motion.div
+        className="absolute left-1/2 pointer-events-none"
+        style={{
+          bottom: "18%",
+          width: "18vmin",
+          height: "18vmin",
+          x: "-50%",
+          backgroundImage: `url(${heroSprite})`,
+          backgroundSize: "contain",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center bottom",
+          imageRendering: "pixelated",
+          filter:
+            "drop-shadow(0 6px 12px rgba(0,0,0,0.45)) drop-shadow(0 0 18px oklch(0.9 0.15 70 / 0.35))",
+        }}
+        animate={{
+          y: [0, -4, 0, -4, 0],
+          scale: [1, 1.015, 1, 1.015, 1],
+        }}
+        transition={{ duration: 1.1, repeat: Infinity, ease: "easeInOut" }}
+      />
+
 
       {/* Camera-forward subtle zoom */}
       <motion.div
