@@ -160,15 +160,20 @@ export function EpilogueScene() {
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.9, ease: "easeOut" }}
           >
-            <div className="max-w-2xl text-center backdrop-blur-sm bg-background/30 rounded-2xl px-8 py-5 border border-primary/20">
-              <div
-                className={`font-display text-base sm:text-lg mb-2 ${dialogue[lineIdx].color}`}
-              >
-                {dialogue[lineIdx].speaker}
+            <div className="jrpg-frame mx-auto w-full max-w-3xl px-5 sm:px-8 py-5 sm:py-6 overflow-hidden text-center">
+              <span className="jrpg-corner tl" />
+              <span className="jrpg-corner tr" />
+              <span className="jrpg-corner bl" />
+              <span className="jrpg-corner br" />
+              <div className="mb-2 flex items-center gap-2">
+                <span className={`text-glow-gold font-display text-lg ${dialogue[lineIdx].color}`}>
+                  {dialogue[lineIdx].speaker}
+                </span>
+                <span className="h-px flex-1 bg-primary/40" />
               </div>
-              <div className="text-foreground/95 text-lg sm:text-xl leading-relaxed whitespace-pre-line">
+              <p className="text-foreground/95 leading-relaxed text-base sm:text-lg md:text-xl min-h-[3.5em] break-words whitespace-pre-line">
                 {dialogue[lineIdx].text}
-              </div>
+              </p>
             </div>
           </motion.div>
         )}
