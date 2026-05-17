@@ -169,7 +169,7 @@ export function EpilogueScene() {
       <AnimatePresence>
         {(phase === "music" || phase === "glitch" || phase === "after") && (
           <motion.div
-            className="absolute inset-x-0 bottom-[6vh] flex flex-col items-center px-6 pointer-events-none"
+            className="absolute inset-x-0 bottom-[14vh] flex flex-col items-center px-6 pointer-events-none"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 2.4, ease: "easeOut" }}
