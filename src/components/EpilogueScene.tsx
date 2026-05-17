@@ -7,7 +7,7 @@ import heroSprite from "@/assets/hero-walking.png";
 
 type Phase = "fadeout" | "save" | "road-intro" | "dialogue" | "silence" | "music" | "glitch" | "after";
 
-const epilogueDialogue: DialogueLine[] = [
+const dialogue: DialogueLine[] = [
   { speaker: "🎮 Система", text: "Сценарий завершён", color: "text-accent" },
   { speaker: "💫 Рассказчик", text: "Это был лишь один из квестов", color: "text-secondary" },
   { speaker: "😼 Симба (off-screen)", text: "Пойдём дальше?", color: "text-primary" },
