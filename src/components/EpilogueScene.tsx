@@ -218,7 +218,7 @@ export function EpilogueScene() {
               }}
             />
             <motion.div
-              className="absolute inset-x-0 bottom-[8vh] flex justify-center px-6 pointer-events-none"
+              className="absolute inset-x-0 bottom-[3vh] flex justify-center px-6 pointer-events-none"
               initial={{ opacity: 0 }}
               animate={{ opacity: [0, 0.85, 0.85, 0] }}
               transition={{ duration: 4, times: [0, 0.15, 0.75, 1] }}
