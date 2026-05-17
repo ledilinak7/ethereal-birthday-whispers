@@ -93,6 +93,14 @@ export function EpilogueScene() {
       animate={{ opacity: 1 }}
       transition={{ duration: 1.2 }}
     >
+      {/* Chapter title */}
+      <header className="absolute top-6 left-0 right-0 text-center z-10 animate-rise pointer-events-none">
+        <div className="font-display text-primary/80 tracking-[0.4em] text-xs uppercase">
+          ✦ Эпилог ✦
+        </div>
+        <div className="mx-auto mt-2 h-px w-32 bg-primary/40" />
+      </header>
+
       {/* Save chime flash */}
       <AnimatePresence>
         {phase === "save" && (
