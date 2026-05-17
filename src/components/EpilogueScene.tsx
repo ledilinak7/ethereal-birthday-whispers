@@ -165,23 +165,40 @@ export function EpilogueScene() {
         )}
       </AnimatePresence>
 
-      {/* Final on-screen text */}
+      {/* Hero sprite + final on-screen text (appear together with the song) */}
       <AnimatePresence>
         {(phase === "music" || phase === "glitch" || phase === "after") && (
           <motion.div
-            className="absolute inset-x-0 top-[14vh] flex justify-center px-6 pointer-events-none"
-            initial={{ opacity: 0, y: -10 }}
+            className="absolute inset-x-0 bottom-[14vh] flex flex-col items-center px-6 pointer-events-none"
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 3, delay: 1.2 }}
+            transition={{ duration: 2.4, ease: "easeOut" }}
           >
-            <div className="text-center">
+            <motion.img
+              src={heroSprite}
+              alt=""
+              className="w-[34vmin] max-w-[280px] h-auto select-none"
+              style={{
+                imageRendering: "pixelated",
+                filter:
+                  "drop-shadow(0 8px 16px rgba(0,0,0,0.55)) drop-shadow(0 0 22px oklch(0.9 0.15 70 / 0.45))",
+              }}
+              animate={{ y: [0, -4, 0, -4, 0] }}
+              transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div
+              className="text-center mt-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 2.4, delay: 0.8 }}
+            >
               <div className="font-display text-2xl sm:text-3xl text-glow-gold text-primary/95 leading-relaxed">
                 История ещё не дописана…
               </div>
               <div className="font-display text-xl sm:text-2xl text-glow-gold text-accent/90 mt-2">
                 Продолжение следует ✨
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -201,7 +218,7 @@ export function EpilogueScene() {
               }}
             />
             <motion.div
-              className="absolute inset-x-0 bottom-[8vh] flex justify-center px-6 pointer-events-none"
+              className="absolute inset-x-0 bottom-[3vh] flex justify-center px-6 pointer-events-none"
               initial={{ opacity: 0 }}
               animate={{ opacity: [0, 0.85, 0.85, 0] }}
               transition={{ duration: 4, times: [0, 0.15, 0.75, 1] }}
@@ -297,28 +314,6 @@ function RoadScene({ phase }: { phase: Phase }) {
       {/* Drifting light particles */}
       <Particles />
 
-      {/* Hero sprite walking down the road toward the sunset */}
-      <motion.div
-        className="absolute left-1/2 pointer-events-none"
-        style={{
-          bottom: "18%",
-          width: "18vmin",
-          height: "18vmin",
-          x: "-50%",
-          backgroundImage: `url(${heroSprite})`,
-          backgroundSize: "contain",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center bottom",
-          imageRendering: "pixelated",
-          filter:
-            "drop-shadow(0 6px 12px rgba(0,0,0,0.45)) drop-shadow(0 0 18px oklch(0.9 0.15 70 / 0.35))",
-        }}
-        animate={{
-          y: [0, -4, 0, -4, 0],
-          scale: [1, 1.015, 1, 1.015, 1],
-        }}
-        transition={{ duration: 1.1, repeat: Infinity, ease: "easeInOut" }}
-      />
 
 
       {/* Camera-forward subtle zoom */}
