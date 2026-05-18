@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { audio } from "@/lib/audio";
 import { type DialogueLine } from "@/components/DialogueBox";
+import { Typewriter } from "@/components/Typewriter";
 import heroSong from "@/assets/hero-song.mp3";
 import heroSprite from "@/assets/hero-walking.png";
 
