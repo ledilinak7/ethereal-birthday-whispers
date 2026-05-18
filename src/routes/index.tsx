@@ -393,30 +393,52 @@ function Index() {
             </FantasyButton>
           </div>
 
-          <div className="mt-12 w-full max-w-2xl">
-            <p className="uppercase tracking-[0.35em] text-primary/70 text-[10px] mb-4">
-              ✦ Выбор главы ✦
-            </p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              {[
-                { label: "I — Пробуждение", stage: "scene1" as Stage },
-                { label: "II — Огни воспоминаний", stage: "scene2" as Stage },
-                { label: "III — Тень печали", stage: "ch3-intro" as Stage },
-                { label: "IV — Великое испытание", stage: "scene3" as Stage },
-                { label: "V — Дар света", stage: "scene4" as Stage },
-                { label: "✦ Level Up ✦", stage: "level-up" as Stage },
-              ].map((ch) => (
-                <button
-                  key={ch.stage}
-                  onClick={() => {
-                    void audio.play("click");
-                    setStage(ch.stage);
-                  }}
-                  className="group relative rounded-xl border border-primary/30 bg-background/40 backdrop-blur-sm px-4 py-3 text-sm text-foreground/90 hover:border-primary/70 hover:bg-primary/10 hover:text-primary transition-all duration-300 hover:-translate-y-0.5"
-                >
-                  <span className="font-display tracking-wide">{ch.label}</span>
-                </button>
-              ))}
+          <div className="mt-8 w-full max-w-2xl">
+            <button
+              onClick={() => {
+                void audio.play("click");
+                setShowChapters((v) => !v);
+              }}
+              className="group inline-flex items-center gap-2 rounded-full border border-primary/40 bg-background/40 backdrop-blur-sm px-5 py-2 text-xs uppercase tracking-[0.35em] text-primary/80 hover:border-primary/80 hover:bg-primary/10 hover:text-primary transition-all duration-300"
+            >
+              <span>✦ Выбор главы ✦</span>
+              <span
+                className={`transition-transform duration-300 ${showChapters ? "rotate-180" : ""}`}
+              >
+                ▾
+              </span>
+            </button>
+
+            <div
+              className={`grid transition-all duration-500 ease-out ${
+                showChapters
+                  ? "grid-rows-[1fr] opacity-100 mt-5"
+                  : "grid-rows-[0fr] opacity-0 mt-0"
+              }`}
+            >
+              <div className="overflow-hidden">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {[
+                    { label: "I — Пробуждение", stage: "scene1" as Stage },
+                    { label: "II — Огни воспоминаний", stage: "scene2" as Stage },
+                    { label: "III — Тень печали", stage: "ch3-intro" as Stage },
+                    { label: "IV — Великое испытание", stage: "scene3" as Stage },
+                    { label: "V — Дар света", stage: "scene4" as Stage },
+                    { label: "✦ Level Up ✦", stage: "level-up" as Stage },
+                  ].map((ch) => (
+                    <button
+                      key={ch.stage}
+                      onClick={() => {
+                        void audio.play("click");
+                        setStage(ch.stage);
+                      }}
+                      className="group relative rounded-xl border border-primary/30 bg-background/40 backdrop-blur-sm px-4 py-3 text-sm text-foreground/90 hover:border-primary/70 hover:bg-primary/10 hover:text-primary transition-all duration-300 hover:-translate-y-0.5"
+                    >
+                      <span className="font-display tracking-wide">{ch.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
 
