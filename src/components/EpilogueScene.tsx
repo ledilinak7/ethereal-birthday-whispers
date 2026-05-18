@@ -155,13 +155,13 @@ export function EpilogueScene() {
         {phase === "dialogue" && (
           <motion.div
             key={lineIdx}
-            className="absolute inset-x-0 bottom-[12vh] flex justify-center px-6"
+            className="absolute inset-x-0 bottom-[12vh] flex justify-center px-4 sm:px-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.9, ease: "easeOut" }}
           >
-            <div className="jrpg-frame mx-auto w-full max-w-3xl px-5 sm:px-8 py-5 sm:py-6 overflow-hidden text-center">
+            <div className="jrpg-frame mx-auto w-full max-w-3xl px-5 sm:px-8 py-5 sm:py-6 overflow-hidden">
               <span className="jrpg-corner tl" />
               <span className="jrpg-corner tr" />
               <span className="jrpg-corner bl" />
@@ -173,7 +173,7 @@ export function EpilogueScene() {
                 <span className="h-px flex-1 bg-primary/40" />
               </div>
               <p className="text-foreground/95 leading-relaxed text-base sm:text-lg md:text-xl min-h-[3.5em] break-words whitespace-pre-line">
-                {dialogue[lineIdx].text}
+                <Typewriter text={dialogue[lineIdx].text} />
               </p>
             </div>
           </motion.div>
