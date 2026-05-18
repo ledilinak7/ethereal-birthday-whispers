@@ -95,7 +95,7 @@ export function EpilogueScene() {
       transition={{ duration: 1.2 }}
     >
       {/* Chapter title */}
-      <header className="absolute top-6 left-0 right-0 text-center z-10 animate-rise pointer-events-none">
+      <header className="absolute top-10 left-0 right-0 text-center z-10 animate-rise pointer-events-none px-4 sm:px-6">
         <div className="font-display text-primary/80 tracking-[0.4em] text-xs uppercase">
           ✦ Эпилог ✦
         </div>
